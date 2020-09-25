@@ -8,103 +8,314 @@ namespace client
 {
     class Program
     {
+        //Query 1: Create and show a LINQ Query that lists all Sepal Widths that are above the average Sepal Width.
+        static string QueryOne(IEnumerable<IrisRecord> records) {
+            
+            string answer = "";
+
+            if(records != null) {
+
+                var sepalWidthAverage = records.Average(record => record.SepalWidth);
+                var firstQuery =
+                    from record in records
+                    where record.SepalWidth > sepalWidthAverage
+                    orderby record.SepalWidth
+                    select record;
+
+                answer = $"Sepal Width average is {sepalWidthAverage}";
+                PrintRecords($"Records that are above the Sepal Width average {sepalWidthAverage}:", firstQuery);
+            }
+
+            return answer;
+
+        }
+
+        //Query 2: Create and show a LINQ Query that lists all Sepal Lengths that are below the average Sepal Length
+        static string QueryTwo(IEnumerable<IrisRecord> records) {
+            
+            string answer = "";
+
+            if(records != null) {
+
+                var sepalLengthAverage = records.Average(record => record.SepalLength);
+                var secondQuery =
+                    from record in records
+                    where record.SepalLength > sepalLengthAverage
+                    orderby record.SepalLength
+                    select record;
+
+                answer = $"Sepal Length average is {sepalLengthAverage}";
+                PrintRecords($"Sepal Length records above the average {sepalLengthAverage}:", secondQuery);
+            }
+
+            return answer;
+        }
+
+        //Query 3: Create and show a LINQ Query that indicates which class of iris has the lowest average Petal Width
+        static string QueryThree(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null) {
+
+                //Iris-setosa
+                var setosaAvg = (Name: "Iris-setosa", Avg: 0d);
+                setosaAvg.Avg = records.Where(r => r.IrisClassificationName == setosaAvg.Name)
+                                       .Average<IrisRecord>(r => r.PetalWidth);
+
+                //Iris-versicolor
+                var versicolorAvg = (Name: "Iris-versicolor", Avg: 0d);
+                versicolorAvg.Avg = records.Where(r => r.IrisClassificationName == versicolorAvg.Name)
+                                           .Average(r => r.PetalWidth);
+
+                //Iris-virginica
+                var virginicaAvg = (Name: "Iris-virginica", Avg: 0d);
+                virginicaAvg.Avg = records.Where(r => r.IrisClassificationName == virginicaAvg.Name)
+                                          .Average(r => r.PetalWidth);
+
+                List<(string, double)> avgs = new List<(string, double)>() {
+                    setosaAvg,
+                    versicolorAvg,
+                    virginicaAvg
+                };
+
+                // foreach (var avg in avgs) {
+                //      Console.WriteLine($"{avg}");
+                // }
+
+                var classWithMinAvg = avgs.Min();
+                var petalWidthMinAvg = avgs.Min(a => a.Item2);
+
+                answer = $"Lowest avg of Petal Width: {petalWidthMinAvg} \nClass with the lowest avg of Petal Width: {classWithMinAvg}";
+
+            }
+
+            return answer;
+
+        }
+
+        //Query 4: Create and show a LINQ Query that indicates which class of iris has the highest average Petal Length
+
+        static string QueryFour(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null) {
+
+                //Iris-setosa
+                var setosaAvg = (Name: "Iris-setosa", Avg: 0d);
+                setosaAvg.Avg = records.Where(r => r.IrisClassificationName == setosaAvg.Name)
+                                       .Average(r => r.PetalLength);
+
+                //Iris-versicolor
+                var versicolorAvg = (Name: "Iris-versicolor", Avg: 0d);
+                versicolorAvg.Avg = records.Where(r => r.IrisClassificationName == versicolorAvg.Name)
+                                           .Average(r => r.PetalLength);
+
+                //Iris-virginica
+                var virginicaAvg = (Name: "Iris-virginica", Avg: 0d);
+                virginicaAvg.Avg = records.Where(r => r.IrisClassificationName == virginicaAvg.Name)
+                                          .Average(r => r.PetalLength);
+
+                List<(string, double)> avgs = new List<(string, double)>() {
+                    setosaAvg,
+                    versicolorAvg,
+                    virginicaAvg
+                };
+
+                // foreach (var avg in avgs) {
+                //      Console.WriteLine($"{avg}");
+                // }
+
+                var classWithMaxAvg = avgs.Max();
+                var petalLengthMaxAvg = avgs.Max(a => a.Item2);
+
+                answer = $"Highest avg of Petal Length: {petalLengthMaxAvg} \nClass of iris with the highest avg Petal Length: {classWithMaxAvg}";
+            }
+            
+            return answer;
+        }
+
+        // Query 5: Create and show a LINQ Query that indicates the widest Sepal Width for each class of iris
+        static string QueryFive(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null) {
+
+                //Iris-setosa
+                var setosaWidth = (Name: "Iris-setosa", Width: 0d);
+                setosaWidth.Width = records.Where(r => r.IrisClassificationName == setosaWidth.Name)
+                                           .Max(r => r.SepalWidth);
+
+                //Iris-versicolor
+                var versicolorWidth = (Name: "Iris-versicolor", Width: 0d);
+                versicolorWidth.Width = records.Where(r => r.IrisClassificationName == versicolorWidth.Name)
+                                               .Max(r => r.SepalWidth);
+
+                //Iris-virginica
+                var virginicaWidth = (Name: "Iris-virginica", Width: 0d);
+                virginicaWidth.Width = records.Where(r => r.IrisClassificationName == virginicaWidth.Name)
+                                              .Max(r => r.SepalWidth);
+
+                List<(string, double)> widths = new List<(string, double)>() {
+                    setosaWidth,
+                    versicolorWidth,
+                    virginicaWidth
+                };
+
+                foreach (var width in widths) {
+                     Console.WriteLine($"{width}");
+                }
+
+            }
+
+            return answer;
+        }
+
+        // Query 6: Create and show a LINQ Query that indicates the shortest Sepal Width for each class of iris
+        static string QuerySix(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null) {
+
+                //Iris-setosa
+                var setosaWidth = (Name: "Iris-setosa", Width: 0d);
+                setosaWidth.Width = records.Where(r => r.IrisClassificationName == setosaWidth.Name)
+                                           .Min(r => r.SepalWidth);
+
+                //Iris-versicolor
+                var versicolorWidth = (Name: "Iris-versicolor", Width: 0d);
+                versicolorWidth.Width = records.Where(r => r.IrisClassificationName == versicolorWidth.Name)
+                                               .Min(r => r.SepalWidth);
+
+                //Iris-virginica
+                var virginicaWidth = (Name: "Iris-virginica", Width: 0d);
+                virginicaWidth.Width = records.Where(r => r.IrisClassificationName == virginicaWidth.Name)
+                                              .Min(r => r.SepalWidth);
+
+                List<(string, double)> widths = new List<(string, double)>() {
+                    setosaWidth,
+                    versicolorWidth,
+                    virginicaWidth
+                };
+
+                foreach (var width in widths) {
+                     Console.WriteLine($"{width}");
+                }
+
+            }
+
+            return answer;
+        }
+        
+        //Query 7: Create and show a LINQ Query that indicates the ranks the top 5 widest Petal Widths
+        static string QuerySeven(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null)  {
+
+            var widestPetalWidth = records.Max(record => record.PetalWidth);
+            var seventhQuery =
+                (from record in records
+                where record.PetalWidth <= widestPetalWidth
+                orderby record.PetalWidth descending
+                select record).Take(5);
+
+            PrintRecords($"Widest Petal Width: {widestPetalWidth}", seventhQuery);
+            }
+
+            return answer;
+
+        }
+
+        //Query 8: Create and show a LINQ Query that indicates the ranks the 5 shortest Petal Lengths
+        static string QueryEight(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null)  {
+
+            var shortestPetalLength = records.Min(record => record.PetalLength);
+            var eighthQuery =
+                (from record in records
+                where record.PetalLength >= shortestPetalLength
+                orderby record.PetalLength ascending
+                select record).Take(5);
+
+            PrintRecords($"Shortest Petal Length: {shortestPetalLength}", eighthQuery);
+
+            }
+
+            return answer;
+        }
+
+
+        //Query 9: Create and show a LINQ Query that indicates the median Sepal Width for each class of iris
+        static string QueryNine(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null)  {
+
+
+
+            }
+
+            return answer;
+
+        }
+
         static void Main(string[] args)
         {
 
             IEnumerable<IrisRecord> records = LoadIrisData();
-            IEnumerable<IrisRecord> filtered;
 
-            if(records != null)
-            {
-                //print all
-                // PrintRecords("unfiltered", records);
+            // Console.WriteLine(QueryOne(records));
 
-                // float boundary = 4.0f;
-                // var otherfilter = 
-                //     from record in records
-                //     where record.PetalLength < boundary
-                //     select record;
-                // PrintRecords($"Petal Length at or below {boundary}", otherfilter);  
+            // Console.WriteLine(QueryTwo(records));
 
-                //Query 1: Create and show a LINQ Query that lists all Sepal Widths that are above the average Sepal Width.
-                // var sepalWidthAverage = records.Average(record => record.SepalWidth);
-                // var firstQuery =
-                //     from record in records
-                //     where record.SepalWidth > sepalWidthAverage
-                //     orderby record.SepalWidth
-                //     select record;
-                // PrintRecords($"Sepal Width above the average {sepalWidthAverage}", firstQuery);
+            // Console.WriteLine(QueryThree(records));
 
-                //Query 2: Create and show a LINQ Query that lists all Sepal Lengths that are below the average Sepal Length
-                // var sepalLengthAverage = records.Average(record => record.SepalLength);
-                // var secondQuery =
-                //     from record in records
-                //     where record.SepalLength > sepalLengthAverage
-                //     orderby record.SepalLength
-                //     select record;
-                // PrintRecords($"Sepal Length above the average {sepalLengthAverage}", secondQuery);
+            // Console.WriteLine(QueryFour(records));
 
-                //Query 3: Create and show a LINQ Query that indicates which class of iris has the lowest average Petal Width
-                // var petalWidthAverage = records.Average(record => record.PetalWidth);
-                // var petalWidthLowest = records.Min(record => record.PetalWidth);
-                // var thirdQuery =
-                //     from record in records
-                //     where record.PetalWidth < petalWidthAverage && record.PetalWidth == petalWidthLowest
-                //     orderby record.IrisClassificationName
-                //     select record;
-                // PrintRecords($"Lowest average Petal Width {petalWidthLowest}", thirdQuery);
+            // Console.WriteLine(QueryFive(records));
 
-                //Query 4: Create and show a LINQ Query that indicates which class of iris has the highest average Petal Length
-                //    var petalLengthAverage = records.Average(record => record.PetalLength);
-                //    var fourthQuery =
-                //         (from record in records
-                //         where record.PetalLength > petalLengthAverage
-                //         orderby record.PetalLength descending
-                //         select record).Take(1);
-                //     PrintRecords($"Average Petal Length: {petalLengthAverage}", fourthQuery);
-                //     var fourthQuery = records.Where(record => record.PetalLength > petalLengthAverage).OrderByDescending(record => record.PetalLength).Take(1);
-                //     PrintRecords($"Average Petal Length: {petalLengthAverage}", fourthQuery);
+            // Console.WriteLine(QuerySix(records));
 
-                //Query 5: Create and show a LINQ Query that indicates the widest Sepal Width for each class of iris
-                    // var widestSepalWidth = records.Max(record => record.SepalWidth);
-                    // var fifthQuery = records.GroupBy(record => record.IrisClassificationName)
-                    //                         .SelectMany(y=>y.Where(z=>z.SepalWidth == y.Max(i=>i.SepalWidth)));
-                    // PrintRecords($"Widest Sepal Width: {widestSepalWidth}", fifthQuery);
+            // Console.WriteLine(QuerySeven(records));
 
-                //Query 6: Create and show a LINQ Query that indiciates the shortest Sepal Width for each class of iris
-                    var shortestSepalWidth = records.Min(record => record.SepalWidth);
-                    var sixthQuery = records.GroupBy(record => record.IrisClassificationName)
-                                            .SelectMany(y=>y.Where(z=>z.SepalWidth == y.Min(i=>i.SepalWidth)));
-                    PrintRecords($"Shortest Sepal Width: {shortestSepalWidth}", sixthQuery);
+            // Console.WriteLine(QueryEight(records));
 
-                //Query 7: Create and show a LINQ Query that indicates the ranks the top 5 widest Petal Widths
-                    // var widestPetalWidth = records.Max(record => record.PetalWidth);
-                    // var seventhQuery =
-                    //     (from record in records
-                    //     where record.PetalWidth <= widestPetalWidth
-                    //     orderby record.PetalWidth descending
-                    //     select record).Take(5);
-                    // PrintRecords($"Widest Petal Width: {widestPetalWidth}", seventhQuery);
+            // Console.WriteLine(QueryNine(records));
 
-                //Query 8: Create and show a LINQ Query that indicates the ranks the botton 5 shortest Petal Lengths
-                    // var shortestPetalLength = records.Min(record => record.PetalLength);
-                    // var eighthQuery =
-                    //     (from record in records
-                    //     where record.PetalLength >= shortestPetalLength
-                    //     orderby record.PetalLength ascending
-                    //     select record).Take(5);
-                    // PrintRecords($"Shortest Petal Length: {shortestPetalLength}", eighthQuery);
+            // Console.WriteLine(QueryTen(records));
 
-                //Query 9: Create and show a LINQ Query that indicates the median Sepal Width for each class of iris
-                    // var ninthQuery =
-                    //     from record in records
-                    //     orderby record
-                    //     select record;
+            //Query 9: Create and show a LINQ Query that indicates the median Sepal Width for each class of iris
+            // var ninthQuery = 
+            //     (from record in records
+            //     where record.SepalWidth > 0
+            //     orderby record.SepalWidth
+            //     select record).GroupBy(record => record.IrisClassificationName).Select(record => record.First());
+                
+            // PrintRecords($"Medians for each iris class:", ninthQuery);
+                
 
-                    
-                //Query 10: Create and show a LINQ Query that indicates the mode Petal Length for each class of iris
-
-            } 
+            //Query 10: Create and show a LINQ Query that indicates the mode Petal Length for each class of iris
+            // var tenthQuery = 
+            //     (from record in records
+            //     where record.PetalLength > 0
+            //     orderby record.PetalLength descending
+            //     select record).GroupBy(record => record.IrisClassificationName).Select(record => record.First());
+            //     var mode = tenthQuery.GroupBy(v => v)
+            //                          .OrderByDescending(g => g.Count())
+            //                          .First()
+            //                          .Select(record => record.PetalLength)
+            //                          .First();
+                
+            // PrintRecords($"Mode for each iris class: {mode}", tenthQuery);
         }
 
         static void PrintRecords(string message, IEnumerable<IrisRecord> records)
