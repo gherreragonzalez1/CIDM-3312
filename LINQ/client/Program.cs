@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LINQDataSources;
-using CustomExtensions;
 
 namespace client
 {
@@ -96,7 +95,6 @@ namespace client
         }
 
         //Query 4: Create and show a LINQ Query that indicates which class of iris has the highest average Petal Length
-
         static string QueryFour(IEnumerable<IrisRecord> records) {
 
             string answer = "";
@@ -317,7 +315,6 @@ namespace client
                     var virginicaMedianOdd = virginicaList.ElementAt(virginicaItemIndex);
                     Console.WriteLine($"Median of Iris-virginica: {virginicaMedianOdd}");
                 }
-
             
             }
 
@@ -357,7 +354,7 @@ namespace client
 
             return answer;
         }
-        
+
         static void Main(string[] args)
         {
 
