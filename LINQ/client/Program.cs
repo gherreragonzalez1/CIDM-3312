@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LINQDataSources;
+using CustomExtensions;
 
 namespace client
 {
-    class Program
+    public class Program
     {
         //Query 1: Create and show a LINQ Query that lists all Sepal Widths that are above the average Sepal Width.
         static string QueryOne(IEnumerable<IrisRecord> records) {
@@ -258,22 +259,111 @@ namespace client
 
             string answer = "";
 
-            if(records != null)  {
+            if(records != null) {
 
+                // Iris-setosa
+                var setosaName = "Iris-setosa";
+                var setosaList = (from record in records
+                                  where record.IrisClassificationName == setosaName
+                                  orderby record.SepalWidth descending
+                                  select record.SepalWidth).ToList();
+            
+                int setosaItemIndex = (int)setosaList.Count / 2;
 
+                if (setosaList.Count % 2 == 0) {
+                    // even number of items
+                    var setosaMedianEven = (setosaList.ElementAt(setosaItemIndex) + setosaList.ElementAt(setosaItemIndex - 1)) / 2;
+                    Console.WriteLine($"Median of Iris-setosa: {setosaMedianEven}");
+                } else {
+                    // odd number of items
+                    var setosaMedianOdd = setosaList.ElementAt(setosaItemIndex);
+                    Console.WriteLine($"Median of Iris-setosa: {setosaMedianOdd}");
+                }
 
+                // Iris-versicolor
+                var versicolorName = "Iris-versicolor";
+                var versicolorList = (from record in records
+                                  where record.IrisClassificationName == versicolorName
+                                  orderby record.SepalWidth descending
+                                  select record.SepalWidth).ToList();
+
+                int versicolorItemIndex = (int)versicolorList.Count / 2;
+
+                if (versicolorList.Count % 2 == 0) {
+                    // even number of items
+                    var versicolorMedianEven = (versicolorList.ElementAt(versicolorItemIndex) + versicolorList.ElementAt(versicolorItemIndex - 1)) / 2;
+                    Console.WriteLine($"Median of Iris-versicolor: {versicolorMedianEven}");
+                } else {
+                    // odd number of items
+                    var versicolorMedianOdd = versicolorList.ElementAt(versicolorItemIndex);
+                    Console.WriteLine($"Median of Iris-versicolor: {versicolorMedianOdd}");
+                }
+
+                // Iris-virginica
+                var virginicaName = "Iris-virginica";
+                var virginicaList = (from record in records
+                                  where record.IrisClassificationName == virginicaName
+                                  orderby record.SepalWidth descending
+                                  select record.SepalWidth).ToList();
+
+                int virginicaItemIndex = (int)virginicaList.Count / 2;
+
+                if (virginicaList.Count % 2 == 0) {
+                    // even number of items
+                    var virginicaMedianEven = (virginicaList.ElementAt(virginicaItemIndex) + virginicaList.ElementAt(virginicaItemIndex - 1)) / 2;
+                    Console.WriteLine($"Median of Iris-virginica: {virginicaMedianEven}");
+                } else {
+                    // odd number of items
+                    var virginicaMedianOdd = virginicaList.ElementAt(virginicaItemIndex);
+                    Console.WriteLine($"Median of Iris-virginica: {virginicaMedianOdd}");
+                }
+
+            
             }
 
             return answer;
 
         }
 
+        //Query 10: Create and show a LINQ Query that indicates the mode Petal Length for each class of iris
+        static string QueryTen(IEnumerable<IrisRecord> records) {
+
+            string answer = "";
+
+            if(records != null)  {
+
+                //Iris-setosa
+                var setosaGroup = records.Where(r => r.IrisClassificationName == "Iris-setosa").GroupBy(r => r.PetalLength);
+                var setosaMaxCount = setosaGroup.Max(g => g.Count());
+                var setosaMode = setosaGroup.First(g => g.Count() == setosaMaxCount).Key;
+
+                Console.WriteLine($"Mode of Iris-setosa: {setosaMode}");
+
+                //Iris-versicolor
+                var versicolorGroup = records.Where(r => r.IrisClassificationName == "Iris-versicolor").GroupBy(r => r.PetalLength);
+                var versicolorMaxCount = versicolorGroup.Max(g => g.Count());
+                var versicolorMode = versicolorGroup.First(g => g.Count() == versicolorMaxCount).Key;
+
+                Console.WriteLine($"Mode of Iris-versicolor: {versicolorMode}");
+
+                //Iris-virginica
+                var virginicaGroup = records.Where(r => r.IrisClassificationName == "Iris-virginica").GroupBy(r => r.PetalLength);
+                var virginicaMaxCount = virginicaGroup.Max(g => g.Count());
+                var virginicaMode = virginicaGroup.First(g => g.Count() == virginicaMaxCount).Key;
+
+                Console.WriteLine($"Mode of Iris-virginica: {virginicaMode}");
+
+            }
+
+            return answer;
+        }
+        
         static void Main(string[] args)
         {
 
             IEnumerable<IrisRecord> records = LoadIrisData();
 
-            // Console.WriteLine(QueryOne(records));
+            Console.WriteLine(QueryOne(records));
 
             // Console.WriteLine(QueryTwo(records));
 
@@ -293,29 +383,6 @@ namespace client
 
             // Console.WriteLine(QueryTen(records));
 
-            //Query 9: Create and show a LINQ Query that indicates the median Sepal Width for each class of iris
-            // var ninthQuery = 
-            //     (from record in records
-            //     where record.SepalWidth > 0
-            //     orderby record.SepalWidth
-            //     select record).GroupBy(record => record.IrisClassificationName).Select(record => record.First());
-                
-            // PrintRecords($"Medians for each iris class:", ninthQuery);
-                
-
-            //Query 10: Create and show a LINQ Query that indicates the mode Petal Length for each class of iris
-            // var tenthQuery = 
-            //     (from record in records
-            //     where record.PetalLength > 0
-            //     orderby record.PetalLength descending
-            //     select record).GroupBy(record => record.IrisClassificationName).Select(record => record.First());
-            //     var mode = tenthQuery.GroupBy(v => v)
-            //                          .OrderByDescending(g => g.Count())
-            //                          .First()
-            //                          .Select(record => record.PetalLength)
-            //                          .First();
-                
-            // PrintRecords($"Mode for each iris class: {mode}", tenthQuery);
         }
 
         static void PrintRecords(string message, IEnumerable<IrisRecord> records)
@@ -346,6 +413,28 @@ namespace client
                 Console.Error.WriteLine(exp.StackTrace);
             }
             return records;
+        }
+    }
+}
+
+// Test
+namespace CustomExtensions {
+    public static class LINQExtensions {
+        public static double GetMedian(this IEnumerable<double> records) {
+
+            var sortedList = (from record in records
+                            orderby record
+                            select record).ToList();
+            
+            int itemIndex = (int)sortedList.Count / 2;
+
+            if (sortedList.Count % 2 == 0) {
+                // even number of items
+                return (sortedList.ElementAt(itemIndex) + sortedList.ElementAt(itemIndex - 1)) / 2;
+            } else {
+                // odd number of items
+                return sortedList.ElementAt(itemIndex);
+            }
         }
     }
 }
