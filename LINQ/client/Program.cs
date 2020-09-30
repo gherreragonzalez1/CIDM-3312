@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using LINQDataSources;
 
+// Name: Gerardo Herrera Gonzalez
+// CIDM-3312, Assignment 2
+
 namespace client
 {
     public class Program
@@ -23,7 +26,7 @@ namespace client
                     select record;
 
                 answer = $"Sepal Width average is {sepalWidthAverage}";
-                PrintRecords($"Records that are above the Sepal Width average {sepalWidthAverage}:", firstQuery);
+                PrintRecords($"Records that are above the average Sepal Width {sepalWidthAverage}:", firstQuery);
             }
 
             return answer;
@@ -45,7 +48,7 @@ namespace client
                     select record;
 
                 answer = $"Sepal Length average is {sepalLengthAverage}";
-                PrintRecords($"Sepal Length records above the average {sepalLengthAverage}:", secondQuery);
+                PrintRecords($"Records above the average Sepal Length {sepalLengthAverage}:", secondQuery);
             }
 
             return answer;
@@ -82,7 +85,7 @@ namespace client
                 var classWithMinAvg = avgs.Min();
                 var petalWidthMinAvg = avgs.Min(a => a.Item2);
 
-                answer = $"Lowest avg of Petal Width: {petalWidthMinAvg} \nClass with the lowest avg of Petal Width: {classWithMinAvg}";
+                answer = $"Lowest avg Petal Width: {petalWidthMinAvg} \nClass with the lowest avg Petal Width: {classWithMinAvg}";
 
             }
 
@@ -121,7 +124,7 @@ namespace client
                 var classWithMaxAvg = avgs.Max();
                 var petalLengthMaxAvg = avgs.Max(a => a.Item2);
 
-                answer = $"Highest avg of Petal Length: {petalLengthMaxAvg} \nClass of iris with the highest avg Petal Length: {classWithMaxAvg}";
+                answer = $"Highest avg Petal Length: {petalLengthMaxAvg} \nClass of iris with the highest avg Petal Length: {classWithMaxAvg}";
             }
             
             return answer;
