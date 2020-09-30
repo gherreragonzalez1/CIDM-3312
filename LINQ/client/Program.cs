@@ -271,7 +271,6 @@ namespace client
                                        select record.SepalWidth;
 
                 var versicolorMedian = Program.FindMedian(versicolorWidths);
-
                 Console.WriteLine($"{versicolorName}, {versicolorMedian}");
 
                 // Iris-virginica
@@ -282,8 +281,8 @@ namespace client
                                       select record.SepalWidth;
 
                 var virginicaMedian = Program.FindMedian(virginicaWidths);
-
                 Console.WriteLine($"{virginicaName}, {virginicaMedian}");
+                
             }
 
             return answer;
