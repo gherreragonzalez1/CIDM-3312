@@ -327,7 +327,7 @@ namespace client
 
             IEnumerable<IrisRecord> records = LoadIrisData();
            
-            // Console.WriteLine(QueryOne(records));
+            Console.WriteLine(QueryOne(records));
 
             // Console.WriteLine(QueryTwo(records));
 
@@ -343,7 +343,7 @@ namespace client
 
             // Console.WriteLine(QueryEight(records));
 
-            Console.WriteLine(QueryNine(records));
+            // Console.WriteLine(QueryNine(records));
 
             // Console.WriteLine(QueryTen(records));
 
