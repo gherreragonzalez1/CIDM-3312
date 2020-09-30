@@ -61,7 +61,7 @@ namespace client
                 //Iris-setosa
                 var setosaAvg = (Name: "Iris-setosa", Avg: 0d);
                 setosaAvg.Avg = records.Where(r => r.IrisClassificationName == setosaAvg.Name)
-                                       .Average<IrisRecord>(r => r.PetalWidth);
+                                       .Average(r => r.PetalWidth);
 
                 //Iris-versicolor
                 var versicolorAvg = (Name: "Iris-versicolor", Avg: 0d);
@@ -336,7 +336,7 @@ namespace client
 
             // Console.WriteLine(QueryFour(records));
 
-             Console.WriteLine(QueryFive(records));
+            // Console.WriteLine(QueryFive(records));
 
             // Console.WriteLine(QuerySix(records));
 
