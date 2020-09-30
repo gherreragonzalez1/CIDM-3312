@@ -79,10 +79,6 @@ namespace client
                     virginicaAvg
                 };
 
-                // foreach (var avg in avgs) {
-                //      Console.WriteLine($"{avg}");
-                // }
-
                 var classWithMinAvg = avgs.Min();
                 var petalWidthMinAvg = avgs.Min(a => a.Item2);
 
@@ -122,10 +118,6 @@ namespace client
                     virginicaAvg
                 };
 
-                // foreach (var avg in avgs) {
-                //      Console.WriteLine($"{avg}");
-                // }
-
                 var classWithMaxAvg = avgs.Max();
                 var petalLengthMaxAvg = avgs.Max(a => a.Item2);
 
@@ -163,13 +155,14 @@ namespace client
                     virginicaWidth
                 };
 
-                foreach (var width in widths) {
-                     Console.WriteLine($"{width}");
+                foreach (var w in widths) {
+                     Console.WriteLine($"{w}");
                 }
 
             }
 
             return answer;
+
         }
 
         // Query 6: Create and show a LINQ Query that indicates the shortest Sepal Width for each class of iris
@@ -200,13 +193,14 @@ namespace client
                     virginicaWidth
                 };
 
-                foreach (var width in widths) {
-                     Console.WriteLine($"{width}");
+                foreach (var w in widths) {
+                     Console.WriteLine($"{w}");
                 }
 
             }
 
             return answer;
+
         }
         
         //Query 7: Create and show a LINQ Query that indicates the ranks the top 5 widest Petal Widths
@@ -230,7 +224,7 @@ namespace client
 
         }
 
-        //Query 8: Create and show a LINQ Query that indicates the ranks the 5 shortest Petal Lengths
+        //Query 8: Create and show a LINQ Query that indicates the ranks the bottom 5 shortest Petal Length
         static string QueryEight(IEnumerable<IrisRecord> records) {
 
             string answer = "";
@@ -261,61 +255,35 @@ namespace client
 
                 // Iris-setosa
                 var setosaName = "Iris-setosa";
-                var setosaList = (from record in records
+                var setosaWidths =  from record in records
                                   where record.IrisClassificationName == setosaName
                                   orderby record.SepalWidth descending
-                                  select record.SepalWidth).ToList();
-            
-                int setosaItemIndex = (int)setosaList.Count / 2;
+                                  select record.SepalWidth;
 
-                if (setosaList.Count % 2 == 0) {
-                    // even number of items
-                    var setosaMedianEven = (setosaList.ElementAt(setosaItemIndex) + setosaList.ElementAt(setosaItemIndex - 1)) / 2;
-                    Console.WriteLine($"Median of Iris-setosa: {setosaMedianEven}");
-                } else {
-                    // odd number of items
-                    var setosaMedianOdd = setosaList.ElementAt(setosaItemIndex);
-                    Console.WriteLine($"Median of Iris-setosa: {setosaMedianOdd}");
-                }
+                var setosaMedian = Program.FindMedian(setosaWidths);
+                Console.WriteLine($"{setosaName}, {setosaMedian}");
 
                 // Iris-versicolor
                 var versicolorName = "Iris-versicolor";
-                var versicolorList = (from record in records
-                                  where record.IrisClassificationName == versicolorName
-                                  orderby record.SepalWidth descending
-                                  select record.SepalWidth).ToList();
+                var versicolorWidths = from record in records
+                                       where record.IrisClassificationName == versicolorName
+                                       orderby record.SepalWidth descending
+                                       select record.SepalWidth;
 
-                int versicolorItemIndex = (int)versicolorList.Count / 2;
+                var versicolorMedian = Program.FindMedian(versicolorWidths);
 
-                if (versicolorList.Count % 2 == 0) {
-                    // even number of items
-                    var versicolorMedianEven = (versicolorList.ElementAt(versicolorItemIndex) + versicolorList.ElementAt(versicolorItemIndex - 1)) / 2;
-                    Console.WriteLine($"Median of Iris-versicolor: {versicolorMedianEven}");
-                } else {
-                    // odd number of items
-                    var versicolorMedianOdd = versicolorList.ElementAt(versicolorItemIndex);
-                    Console.WriteLine($"Median of Iris-versicolor: {versicolorMedianOdd}");
-                }
+                Console.WriteLine($"{versicolorName}, {versicolorMedian}");
 
                 // Iris-virginica
                 var virginicaName = "Iris-virginica";
-                var virginicaList = (from record in records
-                                  where record.IrisClassificationName == virginicaName
-                                  orderby record.SepalWidth descending
-                                  select record.SepalWidth).ToList();
+                var virginicaWidths = from record in records
+                                      where record.IrisClassificationName == virginicaName
+                                      orderby record.SepalWidth descending
+                                      select record.SepalWidth;
 
-                int virginicaItemIndex = (int)virginicaList.Count / 2;
+                var virginicaMedian = Program.FindMedian(virginicaWidths);
 
-                if (virginicaList.Count % 2 == 0) {
-                    // even number of items
-                    var virginicaMedianEven = (virginicaList.ElementAt(virginicaItemIndex) + virginicaList.ElementAt(virginicaItemIndex - 1)) / 2;
-                    Console.WriteLine($"Median of Iris-virginica: {virginicaMedianEven}");
-                } else {
-                    // odd number of items
-                    var virginicaMedianOdd = virginicaList.ElementAt(virginicaItemIndex);
-                    Console.WriteLine($"Median of Iris-virginica: {virginicaMedianOdd}");
-                }
-            
+                Console.WriteLine($"{virginicaName}, {virginicaMedian}");
             }
 
             return answer;
@@ -359,8 +327,8 @@ namespace client
         {
 
             IEnumerable<IrisRecord> records = LoadIrisData();
-
-            Console.WriteLine(QueryOne(records));
+           
+            // Console.WriteLine(QueryOne(records));
 
             // Console.WriteLine(QueryTwo(records));
 
@@ -368,7 +336,7 @@ namespace client
 
             // Console.WriteLine(QueryFour(records));
 
-            // Console.WriteLine(QueryFive(records));
+             Console.WriteLine(QueryFive(records));
 
             // Console.WriteLine(QuerySix(records));
 
@@ -380,6 +348,24 @@ namespace client
 
             // Console.WriteLine(QueryTen(records));
 
+        }
+
+        static string FindMedian(IEnumerable<float> records) {
+            
+            List<float> sorted = records.ToList<float>();
+
+            int itemIndex = (int)sorted.Count / 2;
+
+                if (sorted.Count % 2 == 0) {
+                    // even number of items
+                    var medianEven = (records.ElementAt(itemIndex) + records.ElementAt(itemIndex - 1)) / 2;
+                    return $"Median: {medianEven}";
+                } else {
+                    // odd number of items
+                    var medianOdd = sorted.ElementAt(itemIndex);
+                    return $"Median: {medianOdd}";
+                }
+                
         }
 
         static void PrintRecords(string message, IEnumerable<IrisRecord> records)
