@@ -343,7 +343,7 @@ namespace client
 
             // Console.WriteLine(QueryEight(records));
 
-            // Console.WriteLine(QueryNine(records));
+            Console.WriteLine(QueryNine(records));
 
             // Console.WriteLine(QueryTen(records));
 
@@ -395,28 +395,6 @@ namespace client
                 Console.Error.WriteLine(exp.StackTrace);
             }
             return records;
-        }
-    }
-}
-
-// Test
-namespace CustomExtensions {
-    public static class LINQExtensions {
-        public static double GetMedian(this IEnumerable<double> records) {
-
-            var sortedList = (from record in records
-                            orderby record
-                            select record).ToList();
-            
-            int itemIndex = (int)sortedList.Count / 2;
-
-            if (sortedList.Count % 2 == 0) {
-                // even number of items
-                return (sortedList.ElementAt(itemIndex) + sortedList.ElementAt(itemIndex - 1)) / 2;
-            } else {
-                // odd number of items
-                return sortedList.ElementAt(itemIndex);
-            }
         }
     }
 }
