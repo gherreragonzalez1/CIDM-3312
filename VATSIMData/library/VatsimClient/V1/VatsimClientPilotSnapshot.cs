@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VatsimLibrary.VatsimClient
+namespace VatsimLibrary.VatsimClientV1
 {
-    public class VatsimClientPilotSnapshot : VatsimClient
+    public class VatsimClientPilotSnapshotV1 : VatsimClientV1
     {
         public DateTime TimeStamp { get; set; }
         public string Altitude { get; set; }
@@ -37,7 +37,6 @@ namespace VatsimLibrary.VatsimClient
         {
             return $"{this.Cid} - {this.Callsign} - {this.Latitude} - {this.Longitude}";
         }
-
 
     }
 }

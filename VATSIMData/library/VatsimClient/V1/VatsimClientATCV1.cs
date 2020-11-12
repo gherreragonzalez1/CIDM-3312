@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using VatsimLibrary.VatsimData;
 
-namespace VatsimLibrary.VatsimClient
+namespace VatsimLibrary.VatsimClientV1
 {
 
-    public class VatsimClientATC : VatsimClient
+    public class VatsimClientATCV1 : VatsimClientV1
     {
         public string AtisMessage { get; set; }                
         public string Frequency { get; set; }
@@ -21,7 +21,7 @@ namespace VatsimLibrary.VatsimClient
         [NotMapped]
         public double DateDiff { get; set; }
 
-        public void Update(VatsimClientATC controller)
+        public void Update(VatsimClientATCV1 controller)
         {
             this.Cid = controller.Cid;
             this.Callsign = controller.Callsign;

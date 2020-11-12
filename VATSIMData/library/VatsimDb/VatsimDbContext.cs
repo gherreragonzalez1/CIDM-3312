@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-using VatsimLibrary.VatsimClient;
+using VatsimLibrary.VatsimClientV1;
+using VatsimLibrary.VatsimData;
 
 /**
  * The Entity Framework Core tutorial is helpful here: 
@@ -17,12 +18,18 @@ namespace VatsimLibrary.VatsimDb
     public class VatsimDbContext : DbContext
     {
 
-        private string dbfile = $@"{VatsimDbHepler.DATA_DIR}\vatsim.db";
+        private string dbfile;
 
-        public DbSet<VatsimClientPilot> Pilots { get; set; }
-        public DbSet<VatsimClientPlannedFlight> Flights { get; set; }
-        public DbSet<VatsimClientPilotSnapshot> Positions { get; set; }
-        public DbSet<VatsimClientATC> Controllers { get; set; }
+        public DbSet<VatsimClientPilotV1> Pilots { get; set; }
+        public DbSet<VatsimClientPlannedFlightV1> Flights { get; set; }
+        public DbSet<VatsimClientPilotSnapshotV1> Positions { get; set; }
+        public DbSet<VatsimClientATCV1> Controllers { get; set; }
+
+        public VatsimDbContext()
+        {
+            VatsimDataReader.EnsureDataDirectoryExists(VatsimDbHepler.DATA_DIR);
+            this.dbfile = $@"{VatsimDbHepler.DATA_DIR}\vatsim.db";
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($@"Data Source={dbfile}");
@@ -30,14 +37,14 @@ namespace VatsimLibrary.VatsimDb
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // establish derived type keys
-            modelBuilder.Entity<VatsimClientATC>()
+            modelBuilder.Entity<VatsimClientATCV1>()
                 .HasKey(c => new { c.Cid, c.Callsign, c.TimeLogon });
             
-            modelBuilder.Entity<VatsimClientPilot>()
+            modelBuilder.Entity<VatsimClientPilotV1>()
                 .HasKey(p => new { p.Cid, p.Callsign, p.TimeLogon });
 
             /* this establishes a composite key */
-            modelBuilder.Entity<VatsimClientPlannedFlight>()
+            modelBuilder.Entity<VatsimClientPlannedFlightV1>()
                 .HasKey(f => new { f.Cid, 
                                    f.Callsign, 
                                    f.TimeLogon, 
@@ -45,7 +52,7 @@ namespace VatsimLibrary.VatsimDb
                                    f.PlannedDestairport });
 
             /* this establishes a composite key */
-            modelBuilder.Entity<VatsimClientPilotSnapshot>()
+            modelBuilder.Entity<VatsimClientPilotSnapshotV1>()
                 .HasKey(p => new { p.Cid, p.Callsign, p.TimeLogon, p.TimeStamp });
 
         }

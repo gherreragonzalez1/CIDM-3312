@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using VatsimLibrary.VatsimData;
 
-namespace VatsimLibrary.VatsimClient
+namespace VatsimLibrary.VatsimClientV1
 {
-    public class VatsimClientPilot : VatsimClient
+    public class VatsimClientPilotV1 : VatsimClientV1
     {
         //Extending Entity Framework Model to include new properties.
         [NotMapped]
@@ -14,8 +14,7 @@ namespace VatsimLibrary.VatsimClient
         
         [NotMapped]
         public double DateDiff { get; set; }
-
-        public void Update(VatsimClientPilot pilot)
+        public void Update(VatsimClientPilotV1 pilot)
         {
             this.Callsign = pilot.Callsign;
             this.Cid = pilot.Cid;

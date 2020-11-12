@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using VatsimLibrary.VatsimClient;
+using VatsimLibrary.VatsimClientV1;
 using VatsimLibrary.VatsimDb;
 using VatsimLibrary.VatsimUtils;
 
@@ -55,31 +55,38 @@ namespace VatsimLibrary.VatsimData
                     // get total count
                     int count = 0;
                     int total = VatsimClientRecords.Count;
-                    foreach (VatsimClientRecord record in VatsimClientRecords)
+                    try
                     {
-                        progress.Report((double)count++ / total);
-                        Thread.Sleep(20);
-
-                        switch(record.Clienttype)
+                        foreach (VatsimClientRecord record in VatsimClientRecords)
                         {
-                            case "ATC":
-                                VatsimDbHepler.UpdateOrCreateATC(record.GetVatsimClientATCFromRecord());
-                                break;
+                            progress.Report((double)count++ / total);
+                            Thread.Sleep(20);
 
-                            case "PILOT":
-                                // only process IFR flights
-                                if(IFRONLY)
-                                {
-                                    // check to see that this pilot has an IFR Plan Active
-                                    if(IFRFlightPlanActive(record))
+                            switch(record.Clienttype)
+                            {
+                                case "ATC":
+                                    VatsimDbHepler.UpdateOrCreateATCAsync(record.GetVatsimClientATCFromRecord());
+                                    break;
+
+                                case "PILOT":
+                                    // only process IFR flights
+                                    if(IFRONLY)
                                     {
-                                        VatsimDbHepler.UpdateOrCreatePilot(record.GetVatsimClientPilotFromRecord());
-                                        VatsimDbHepler.UpdateOrCreateFlight(record.GetVatsimClientPlannedFlightFromRecord());
-                                        VatsimDbHepler.CreatePosition(record.GetVatsimClientPilotSnapshotFromRecord());
+                                        // check to see that this pilot has an IFR Plan Active
+                                        if(IFRFlightPlanActive(record))
+                                        {
+                                            VatsimDbHepler.UpdateOrCreatePilotAsync(record.GetVatsimClientPilotFromRecord());
+                                            VatsimDbHepler.UpdateOrCreateFlightAsync(record.GetVatsimClientPlannedFlightFromRecord());
+                                            VatsimDbHepler.CreatePositionAsync(record.GetVatsimClientPilotSnapshotFromRecord());
+                                        }
                                     }
-                                }
-                                break;
+                                    break;
+                            }
                         }
+                    }
+                    catch(Exception exp)
+                    {
+                        Console.WriteLine($"{exp.Message}");
                     }
                 }
 

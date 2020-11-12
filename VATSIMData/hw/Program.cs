@@ -1,12 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 
-using VatsimLibrary.VatsimClient;
 using VatsimLibrary.VatsimDb;
-
-// Name: Gerardo Herrera Gonzalez
-// CIDM-3312, Assignment 3
 
 namespace hw
 {
@@ -19,6 +14,28 @@ namespace hw
 
             using(var db = new VatsimDbContext())
             {
+
+                Console.WriteLine($"The number of pilots records is: {db.Pilots.Count()} ");
+
+                //find A319
+                var _aircraft = db.Flights.Where(f => f.PlannedAircraft.Contains("A319"));
+                Console.WriteLine($"It is likely that there are {_aircraft.Count()} A319s in the data");
+
+                _aircraft = db.Flights.Where(f => f.PlannedAircraft.Contains("B738"));
+                Console.WriteLine($"It is likely that there are {_aircraft.Count()} B738s in the data");
+
+                var _depList = db.Flights.ToList();
+
+                //departure most
+                 var _dep = _depList.GroupBy(f => f.PlannedDepairport).OrderByDescending(g => g.Count());
+
+                Console.WriteLine($"{_dep.ElementAt(0).Key} - {_dep.ElementAt(0).Count()}");
+
+                // foreach(var flight in _dep)
+                // {
+                //     Console.WriteLine($"{flight.Key} - {flight.Count()}");
+                // }
+
                 // QUERY 1 STARTS HERE
                 Console.WriteLine("Query 1: Which pilot has been logged on the longest?");
                 var lstPilots = db.Pilots.ToList();
@@ -67,7 +84,7 @@ namespace hw
                 Console.WriteLine("Query 3: Which airport has the most departures?");
                 var query3 = (from departures in db.Flights
                             group departures by departures.PlannedDepairport into p
-                            select new VatsimClientPlannedFlight
+                            select new VatsimLibrary.VatsimClientV1.VatsimClientPlannedFlightV1
                             {
                                 AirportName = p.Key,
                                 Departures = p.Count()
@@ -79,7 +96,7 @@ namespace hw
                 Console.WriteLine("Query 4: Which airport has the most arrivals?");
                 var query4 = (from arrivals in db.Flights
                             group arrivals by arrivals.PlannedDestairport into p
-                            select new VatsimClientPlannedFlight
+                            select new VatsimLibrary.VatsimClientV1.VatsimClientPlannedFlightV1
                             {
                                 AirportName = p.Key,
                                 Arrivals = p.Count()
@@ -93,7 +110,7 @@ namespace hw
                 var query5 = (from positions in db.Positions
                                 join flights in db.Flights
                                 on positions.Cid equals flights.Cid
-                                select new VatsimClientPilotSnapshot
+                                select new VatsimLibrary.VatsimClientV1.VatsimClientPilotSnapshotV1
                                 {
                                     AirCType = flights.PlannedAircraft,
                                     PilotName = positions.Realname,
@@ -112,7 +129,7 @@ namespace hw
                 Console.WriteLine("Query 6: Who is flying the slowest?" +
                    " (Hint: they can't be on the ground)");
                 var query6 = (from positions in db.Positions
-                                        select new VatsimClientPilotSnapshot
+                                        select new VatsimLibrary.VatsimClientV1.VatsimClientPilotSnapshotV1
                                         {
                                             PilotName = positions.Realname,
                                             strGroundspeed = positions.Groundspeed
@@ -130,7 +147,7 @@ namespace hw
                 Console.WriteLine("Query 7: Which aircraft type is being used the most?");
                 var query7 = (from aircraftType in db.Flights
                                 group aircraftType by aircraftType.PlannedAircraft into p
-                                select new VatsimClientPlannedFlight
+                                select new VatsimLibrary.VatsimClientV1.VatsimClientPlannedFlightV1
                                 {
                                     AirCType = p.Key,
                                     AirCTypeCount = p.Count()
@@ -141,7 +158,7 @@ namespace hw
                 // QUERY 8 STARTS HERE
                 Console.WriteLine("Query 8: Who is flying the fastest?");
                 var query8 = (from positions in db.Positions
-                                        select new VatsimClientPilotSnapshot
+                                        select new VatsimLibrary.VatsimClientV1.VatsimClientPilotSnapshotV1
                                         {
                                             PilotName = positions.Realname,
                                             strGroundspeed = positions.Groundspeed
@@ -157,7 +174,7 @@ namespace hw
 
                 // QUERY 9 STARTS HERE
                 Console.WriteLine("Query 9: How many pilots are flying North (270 degrees to 90 degrees)?");                
-                var query9 = db.Positions.Select(p => new VatsimClientPilotSnapshot { strHeading = p.Heading }).ToList();
+                var query9 = db.Positions.Select(p => new VatsimLibrary.VatsimClientV1.VatsimClientPilotSnapshotV1 { strHeading = p.Heading }).ToList();
                 foreach (var item in query9) {
                     // Parse string to return integer
                     item.intHeading = int.Parse(item.strHeading);
@@ -172,6 +189,16 @@ namespace hw
                                 .OrderByDescending(p => p.PlannedRemarks.Length)
                                 .Select(p => new { p.Realname, p.PlannedRemarks.Length }).FirstOrDefault();
                 Console.WriteLine($"{query10.Realname}, who has {query10.Length} characters in their remarks section.");
+            }            
+        }
+
+        public static void FindPilot(VatsimDbContext db, string cid, string callsign, string logontime)
+        {
+            var _pilot = db.Pilots.Find(cid, callsign, logontime);
+            if(_pilot != null){
+                Console.WriteLine($"Pilot found: {_pilot.Realname}");
+            } else {
+                Console.WriteLine("Pilot not found");
             }            
         }
     }

@@ -102,3 +102,12 @@ Don't forget my hint above that you can use the [DB Browser for SQLite](https://
 
 I will follow this up with an orientation video soon, but I wanted to get you started.  The dropbox for this will be in Blackboard.
 
+# Using ASP.NET Core Platform Features to Work with this data
+
+Part II of Freeman's book discusses some of the basic mechanics of how an HTTP Request and Response work within ASP.NET.
+
+I have created Request/Response Endpoints similar to chapters 12-14.
+
+# Using ASP.NET MVC/RazorPages to Work with this data
+
+

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using VatsimLibrary.VatsimClient;
+using VatsimLibrary.VatsimClientV1;
 using VatsimLibrary.VatsimDb;
 using VatsimLibrary.VatsimUtils;
 
@@ -15,7 +15,7 @@ namespace VatsimLibrary.VatsimData
     public class VatsimDataHarvester
     {
 
-        private const int INTERVAL = 120 * 1000;
+        private const int INTERVAL = 180 * 1000;
         private static System.Timers.Timer clock { get; set; }
 
         public static void Run(DateTime stop)
