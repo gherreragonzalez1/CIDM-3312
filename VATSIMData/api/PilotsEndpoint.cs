@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using VatsimLibrary.VatsimClientV1;
 using VatsimLibrary.VatsimDb;
 
+// Name: Gerardo Herrera Gonzalez
+// CIDM-3312
+
 namespace api
 {
     public class PilotsEndpoint
