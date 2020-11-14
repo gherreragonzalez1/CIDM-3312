@@ -55,9 +55,9 @@ namespace api
                 {
                     int responseCounter = 0;
                     Console.WriteLine($"{pilotCallsign}");
-                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Altitude, x.TimeStamp }).ToListAsync();
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Callsign, x.Altitude, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
-                    responseText = $"It is likely that {pilot.Realname} is flying at an altitude of {pilot.Altitude} ft on {pilot.TimeStamp}";
+                    responseText = $"It is likely that {pilot.Realname} ({pilot.Callsign}) is flying at an altitude of {pilot.Altitude} ft on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
                     }
                 }
@@ -80,9 +80,9 @@ namespace api
                 {
                     int responseCounter = 0;
                     Console.WriteLine($"{pilotCallsign}");
-                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Groundspeed, x.TimeStamp }).ToListAsync();
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Callsign, x.Groundspeed, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
-                    responseText = $"It is likely that {pilot.Realname} is flying at an altitude of {pilot.Groundspeed} ft on {pilot.TimeStamp}";
+                    responseText = $"It is likely that {pilot.Realname} ({pilot.Callsign}) is flying at an altitude of {pilot.Groundspeed} ft on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
                     }
                 }
@@ -105,9 +105,9 @@ namespace api
                 {
                     int responseCounter = 0;
                     Console.WriteLine($"{pilotCallsign}");
-                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Latitude, x.TimeStamp }).ToListAsync();
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Callsign, x.Latitude, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
-                    responseText = $"It is likely that {pilot.Realname}'s latitude is {pilot.Latitude} degrees on {pilot.TimeStamp}";
+                    responseText = $"It is likely that {pilot.Realname}'s ({pilot.Callsign}) latitude is {pilot.Latitude} degrees on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
                     }
                 }
@@ -130,9 +130,9 @@ namespace api
                 {
                     int responseCounter = 0;
                     Console.WriteLine($"{pilotCallsign}");
-                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Longitude, x.TimeStamp }).ToListAsync();
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Callsign, x.Longitude, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
-                    responseText = $"It is likely that {pilot.Realname}'s longitude is {pilot.Longitude} degrees on {pilot.TimeStamp}";
+                    responseText = $"It is likely that {pilot.Realname}'s ({pilot.Callsign}) longitude is {pilot.Longitude} degrees on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
                     }
                 }
