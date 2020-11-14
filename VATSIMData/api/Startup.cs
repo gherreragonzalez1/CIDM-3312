@@ -43,10 +43,10 @@ namespace api
                 endpoints.MapGet("pilots/callsign/{callsign}", PilotsEndpoint.CallsignEndpoint);
 
                 //TODO: complete the remaining pilots endpoints here
-                endpoints.MapGet("pilots/altitude/{name}", PilotsEndpoint.AltitudeEndpoint);
-                endpoints.MapGet("pilots/groundspeed/{name}", PilotsEndpoint.GroundspeedEndpoint);
-                endpoints.MapGet("pilots/latitude/{name}", PilotsEndpoint.LatitudeEndpoint);
-                endpoints.MapGet("pilots/longitude/{name}", PilotsEndpoint.LongitudeEndpoint);
+                endpoints.MapGet("pilots/altitude/{callsign}", PilotsEndpoint.AltitudeEndpoint);
+                endpoints.MapGet("pilots/groundspeed/{callsign}", PilotsEndpoint.GroundspeedEndpoint);
+                endpoints.MapGet("pilots/latitude/{callsign}", PilotsEndpoint.LatitudeEndpoint);
+                endpoints.MapGet("pilots/longitude/{callsign}", PilotsEndpoint.LongitudeEndpoint);
 
                 //FLIGHTS endpoints
                 endpoints.MapGet("flights/type/{type}", FlightPlansEndpoint.AircraftTypeEndpoint);

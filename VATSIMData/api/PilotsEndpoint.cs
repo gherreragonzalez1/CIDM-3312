@@ -47,30 +47,18 @@ namespace api
         {
             //TO DO
             string responseText = null;
-            string pilotName = context.Request.RouteValues["name"] as string;
+            string pilotCallsign = context.Request.RouteValues["callsign"] as string;
 
             using(var db = new VatsimDbContext()) 
             {
-                if(pilotName != null)
+                if(pilotCallsign != null)
                 {
                     int responseCounter = 0;
-                    Console.WriteLine($"{pilotName}");
-                    /* .StartsWith() helps to look up a pilot without having to type the whole exact name.
-                        E.g., if you want to look up "Christian Glaeser LOWW", you can just type
-                        "Christian Glaeser" in the URL and still get a response.
-                        Or type "Christian Glaeser LOWW" if you want the exact match.
-                        In the same manner, if there are multiple pilots named Christian in the table, you can
-                        just type "Christian" in the URL and get all of the pilots named Christian.
-                        E.g.,
-                        Christian Iturrieta SCEL
-                        Christian Wopp EDDF
-                        Christian Gullneritz, and so on...
-                    */
-                    var _pilots = await db.Positions.Where(p => p.Realname.StartsWith(pilotName ?? "")).Select(x => new { x.Realname, x.Altitude, x.TimeStamp }).ToListAsync();
-                    foreach (var pilot in _pilots ) {
+                    Console.WriteLine($"{pilotCallsign}");
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Altitude, x.TimeStamp }).ToListAsync();
+                    foreach (var pilot in _pilots) {
                     responseText = $"It is likely that {pilot.Realname} is flying at an altitude of {pilot.Altitude} ft on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
-                    /* In the web browser, %20 represents a space in the URL for names, e.g. "dave%20s" = "dave s" */
                     }
                 }
                 else
@@ -84,18 +72,18 @@ namespace api
         {
             //TO DO
             string responseText = null;
-            string pilotName = context.Request.RouteValues["name"] as string;
+            string pilotCallsign = context.Request.RouteValues["callsign"] as string;
 
             using(var db = new VatsimDbContext()) 
             {
-                if(pilotName != null)
+               if(pilotCallsign != null)
                 {
                     int responseCounter = 0;
-                    Console.WriteLine($"{pilotName}");
-                    var _pilots = await db.Positions.Where(p => p.Realname.StartsWith(pilotName ?? "")).Select(x => new { x.Realname, x.Groundspeed, x.TimeStamp }).ToListAsync();
+                    Console.WriteLine($"{pilotCallsign}");
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Groundspeed, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
-                        responseText = $"It is likely that {pilot.Realname} is flying at {pilot.Groundspeed} mph on {pilot.TimeStamp}";
-                        await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
+                    responseText = $"It is likely that {pilot.Realname} is flying at an altitude of {pilot.Groundspeed} ft on {pilot.TimeStamp}";
+                    await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
                     }
                 }
                 else
@@ -109,15 +97,15 @@ namespace api
         {
             //TO DO
             string responseText = null;
-            string pilotName = context.Request.RouteValues["name"] as string;
+            string pilotCallsign = context.Request.RouteValues["callsign"] as string;
 
             using(var db = new VatsimDbContext()) 
             {
-                if(pilotName != null)
+                if(pilotCallsign != null)
                 {
                     int responseCounter = 0;
-                    Console.WriteLine($"{pilotName}");
-                    var _pilots = await db.Positions.Where(p => p.Realname.StartsWith(pilotName ?? "")).Select(x => new { x.Realname, x.Latitude, x.TimeStamp }).ToListAsync();
+                    Console.WriteLine($"{pilotCallsign}");
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Latitude, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
                     responseText = $"It is likely that {pilot.Realname}'s latitude is {pilot.Latitude} degrees on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
@@ -134,15 +122,15 @@ namespace api
         {
             //TO DO
             string responseText = null;
-            string pilotName = context.Request.RouteValues["name"] as string;
+            string pilotCallsign = context.Request.RouteValues["callsign"] as string;
 
             using(var db = new VatsimDbContext()) 
             {
-                if(pilotName != null)
+                if(pilotCallsign != null)
                 {
                     int responseCounter = 0;
-                    Console.WriteLine($"{pilotName}");
-                    var _pilots = await db.Positions.Where(p => p.Realname.StartsWith(pilotName ?? "")).Select(x => new { x.Realname, x.Longitude, x.TimeStamp }).ToListAsync();
+                    Console.WriteLine($"{pilotCallsign}");
+                    var _pilots = await db.Positions.Where(p => p.Callsign == (pilotCallsign ?? "").ToUpper()).Select(x => new { x.Realname, x.Longitude, x.TimeStamp }).ToListAsync();
                     foreach (var pilot in _pilots) {
                     responseText = $"It is likely that {pilot.Realname}'s longitude is {pilot.Longitude} degrees on {pilot.TimeStamp}";
                     await context.Response.WriteAsync($"RESPONSE {++responseCounter}: {responseText} \n");
