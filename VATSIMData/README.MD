@@ -139,7 +139,7 @@ For Flights, I have created the following endpoints:
 
 ## Chapter 18
 
-In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here.
+In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here. Instructions on how to run the webapp project.
 
 Things that Freeman does:
 
