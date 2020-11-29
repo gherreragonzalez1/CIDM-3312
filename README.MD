@@ -15,7 +15,7 @@ We'll want to create a local repo.
 
 # Command List
 
-## Creating a Repository + New Project Template on {folder} (inside ~Documents/Code)
+## Creating a Repository + New Project Template on ~Documents/Code/{folder}
 
 * Create a **README.MD** file inside ~Documents/Code/{folder}
     1. `dotnet new globaljson --sdk-version 3.1.402 --output {folder}` (just once)
@@ -29,7 +29,7 @@ We'll want to create a local repo.
     9. `dotnet new --no-https --output {folder} --framework netcoreapp3.1` (just once for every project)
         * This command creates the contents of the web project
 
-## Creating a Repository + Commiting to GitHub (inside ~Documents/Code)
+## Creating a Repository + Commiting to GitHub
 
 * Create a **README.MD** file inside ~Documents/Code
     1. `git init`
