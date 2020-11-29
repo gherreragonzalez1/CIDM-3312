@@ -35,24 +35,24 @@ We'll want to create a local repo.
     3. `git add -A`
     4. `git commit -m 'added globaljson and gitignore'`
     5. `git push -u origin master`
-**Create a library and a client folder inside ~Documents/Code/{folder}**
-* cd .. Documents/Code/{folder}/library
-    1. `dotnet new classlib`
-* cd .. Documents/Code/{folder}/client
-    1. `dotnet new console`
-* cd .. Documents/Code/{folder}
-    1. `dotnet new sln`
-**Create contents of the new project**
-* cd .. Documents/Code/{folder}
-    1. `dotnet new mvc --no-https --framework netcoreapp3.1`
-**Add library and client to solution file**
-* cd .. Documents/Code/{folder}
-    1. `dotnet sln add ./client/client.csproj`
-    2. `dotnet sln add ./library/library.csproj`
-**Letting client know that there is a library to use**
-* cd .. Documents/Code/{folder}/client
-    1. `dotnet add reference ../library/library.csproj`
-    
+* **Create a library and a client folder inside ~Documents/Code/{folder}**
+    * cd .. Documents/Code/{folder}/library
+        1. `dotnet new classlib`
+    * cd .. Documents/Code/{folder}/client
+        1. `dotnet new console`
+    * cd .. Documents/Code/{folder}
+        1. `dotnet new sln`
+* **Create contents of the new project**
+    * cd .. Documents/Code/{folder}
+        1. `dotnet new mvc --no-https --framework netcoreapp3.1`
+* **Add library and client to solution file**
+    * cd .. Documents/Code/{folder}
+        1. `dotnet sln add ./client/client.csproj`
+        2. `dotnet sln add ./library/library.csproj`
+* **Letting client know that there is a library to use**
+    * cd .. Documents/Code/{folder}/client
+        1. `dotnet add reference ../library/library.csproj`
+
 We can also create a repository and a new web project template in one sitting, as seen next.
 
 ## Creating a Repository + New Web Project Template + Commiting to GitHub
