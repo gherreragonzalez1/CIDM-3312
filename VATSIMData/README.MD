@@ -139,9 +139,9 @@ For Flights, I have created the following endpoints:
 
 ## Chapter 18
 
-In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here. Instructions on how to run the webapp project.
+In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here. 
 
-Things that Freeman does:
+Steps on how to create and run the webapp project:
 
 1. At the top of *VATSIMData* make sure we've created a globaljson file `dotnet new globaljson --sdk-version 3.1.403`
 2. Make a new directory called webapp and run this inside of it: `dotnet new web --no-https --framework netcoreapp3.1`
