@@ -14,6 +14,27 @@ The lirbary reads from a text file on the Internet/WWW every two minutes and wri
 
 We will query for airports or aircraft to find flights where we can then view some basic data about those flights.
 
+## HW
+
+A brief demonstration of the first homework assignment that used this project.
+
+## API
+
+HTTP endpoints are provided to provide text output for various queries.  A precursor to a proper REST api.
+
+# How to Run
+
+1. You always want to run the `client` app a few times to get some data into the database or update the database.
+    1. If this is your first time running the application, you must first run `dotnet ef database update` from within the `library` project
+    2. Because the client program and library are separated, you must specify a startup project: `dotnet ef database update --startup-project ..\client\client.csproj`
+2. Once the database is taken care of, you can run the client like this: `dotnet run {number_of_minutes}`
+    1. that `{number_of_minutes}` indicates that you should pass the total number of minutes you'd like client to run (not to exceed 10)
+    2. Here is how you'd call it: `dotnet run 5` for 5 minutes
+    3. Each **pass** through the program takes around 2 minutes, once that time expires, another **pass** commences
+3. The **hw** project was created to demonstrate LINQ queries against the database
+4. The **api** project was created to demonstrate using HTTP Endpoints to request data to the browser that also uses LINQ queries.
+5. Each project - **client**,**hw**,**api** - must be run from within their own project folder.
+
 ## Entity Framework Core
 
 Follow the steps in this tutorial carefully: [Getting Started with EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/?tabs=netcore-cli)
@@ -108,6 +129,59 @@ Part II of Freeman's book discusses some of the basic mechanics of how an HTTP R
 
 I have created Request/Response Endpoints similar to chapters 12-14.
 
+For Flights, I have created the following endpoints:
+
+* `/flights/type/{type}` - where `{type}` is a placeholder/segment for an aircraft type code (common: A320, B738, B77L, A319, B737)
+* `/flights/departure/{departure}` - where `{depature}` is a placeholder/segment for an the departure airprt (common: EDDF, EGGL, KATL, KLAX, RJAA)
+* `/flights/destination/{destination}` - where `{destination}` is a placeholder/segment for an the destination airprt (common: EDDF, EGGL, KATL, KLAX, RJAA)
+
 # Using ASP.NET MVC/RazorPages to Work with this data
 
+## Chapter 18
 
+In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here.
+
+Things that Freeman does:
+
+1. At the top of *VATSIMData* make sure we've created a globaljson file
+2. make a new directory called webapp and run this inside of it: `dotnet new web --no-https --framework netcoreapp3.1`
+3. Create models (we already have the **data** project, so we're good here)
+4. The packages he adds will be a little different in our case:
+    1. `dotnet add package Microsoft.EntityFrameworkCore.Design --version 3.1.10`
+    2. `dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 3.1.10` <-- not the same as the book
+    3. `dotnet tool uninstall --global dotnet-ef` <-- gets rid of existing version
+    4. `dotnet tool install --global dotnet-ef --version 3.1.10` <-- current version that is NOT .NET 5
+5. Freeman uses **LibMab** to install front-end dependencies
+    1. `dotnet tool uninstall --global Microsoft.Web.LibraryManager.Cli` <-- Get rid of old version
+    2. `dotnet tool install --global Microsoft.Web.LibraryManager.Cli --version 2.1.113`
+    3. install twitter bootstrap: 
+        1. `libman init -p cdnjs`
+        1. `libman install twitter-bootstrap@4.5.3 -d wwwroot/lib/twitter-bootstrap`
+
+We also create the `TestMiddleware.cs` class that he creates but instead wire that up to the library.
+
+## Chapter 19
+
+This chapter presents a more structured way to call and retrieve data like our EndPoits did.
+
+Here we use:
+* [JavaScript Object Notation](https://www.json.org/json-en.html) to return data from the database.
+* The [Model View Controller](https://docs.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-5.0) pattern to marshal and handle endpoint requests and responses as a [Web API Project](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-5.0&tabs=visual-studio).
+
+Further, enable both RazorPages and MVC in a webapp simply by what we add to *Configure* and *ConfigureServices* in `Startup.cs`
+
+Generally, Chapter 19 neatly packages the same thing we did in endpoints into a convenient package that returns JSON.
+
+## Chapter 23
+
+While the MVC material in Chapters 20 and 21 is useful, we just want to create a few simple views to grab the data from the Library Database Service.  [Razor Pages](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-3.1&tabs=visual-studio) are a simplification of what is available in [ASP.NET Core MVC](https://docs.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-3.1).
+
+Across chapters 18-23, Freeman covers these topics, each of which is at the "core" (no pun) of what ASP.NET Core offers. Microsoft also offers tutorials for these:
+
+* [MVC-based Web Apps](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/?view=aspnetcore-3.1) - Regretably these are discouraged for little good reason by Microsoft
+* [Web Api apps](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-3.1&tabs=visual-studio)
+* [Razor Pages Web Apps](https://docs.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/?view=aspnetcore-3.1)
+
+### Simplicity of Razor Pages
+
+First, Freeman tells us how to add Razor Pages support to the App.
