@@ -28,13 +28,13 @@ We'll want to create a local repo.
 
 ## Creating a New Web Project Template (GitHub is already set up at this point)
 
-**Create a new folder inside ~Documents/Code**
-* cd .. Documents/Code/{folder}
-    1. `dotnet new globaljson --sdk-version 3.1.402`
-    2. `dotnet new gitignore`
-    3. `git add -A`
-    4. `git commit -m 'added globaljson and gitignore'`
-    5. `git push -u origin master`
+* **Create a new folder inside ~Documents/Code**
+    * cd .. Documents/Code/{folder}
+        1. `dotnet new globaljson --sdk-version 3.1.402`
+        2. `dotnet new gitignore`
+        3. `git add -A`
+        4. `git commit -m 'added globaljson and gitignore'`
+        5. `git push -u origin master`
 * **Create a library and a client folder inside ~Documents/Code/{folder}**
     * cd .. Documents/Code/{folder}/library
         1. `dotnet new classlib`
