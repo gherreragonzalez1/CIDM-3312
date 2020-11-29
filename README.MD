@@ -15,7 +15,7 @@ We'll want to create a local repo.
 
 # Command List
 
-## Creating a Repository + New Project Template on ~Documents/Code/{folder}
+## Creating a Repository + New Web Project Template + Commiting to GitHub
 
 * Create a **README.MD** file inside ~Documents/Code/{folder}
     1. `dotnet new globaljson --sdk-version 3.1.402 --output {folder}` (just once)
