@@ -13,7 +13,30 @@ We'll want to create a local repo.
 * (do this on every commit - kinda like a save): ` git init -m 'a descriptive message indicating what is new'`
 * (do this every time you want to save to the server): `git push -u origin master`
 
-# Command List
+# Commands List
+
+## Creating a Repository + Commiting to GitHub
+
+* Create a repository on GitHub
+* Create a **README.MD** file inside ~Documents/Code
+    1. `git init`
+    2. `git add -A`
+    3. `git commit -m 'added README.MD'`
+    4. `git branch -M master`
+    5. `git remote add origin https://github.com/gherreragonzalez1/{repository-name}.git`
+    6. `git push -u origin master`
+
+## Creating a New Project Template (GitHub is already set up at this point)
+
+* Create a new folder inside ~Documents/Code
+* cd ~Documents/Code/{folder}
+    1. `dotnet new globaljson --sdk-version 3.1.402`
+    2. `dotnet new gitignore`
+    3. `git add -A`
+    4. `git commit -m 'added globaljson and gitignore'`
+    5. `git push -u origin master`
+
+We can also do the previous commands in one sitting, as seen next.
 
 ## Creating a Repository + New Web Project Template + Commiting to GitHub
 
@@ -28,15 +51,7 @@ We'll want to create a local repo.
     8. `dotnet new gitignore --output {folder}` (just once for every project)
     9. `dotnet new --no-https --output {folder} --framework netcoreapp3.1` (just once for every project)
         * This command creates the contents of the web project
-
-## Creating a Repository + Commiting to GitHub
-
-* Create a **README.MD** file inside ~Documents/Code
-    1. `git init`
-    2. `git add -A`
-    3. `git commit -m 'added README.MD'`
-    4. `git branch -M master`
-    5. `git remote add origin https://github.com/gherreragonzalez1/{repository}.git`
-    6. `git push -u origin master`
-
-## Creating a New Project Template (GitHub is already set up at this point)
+    These next commands should be performed frequently:
+    10. `git add -A`
+    11. `git commit -m 'added project files'`
+    12. `git push -u origin master`
