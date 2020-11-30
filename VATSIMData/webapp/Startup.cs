@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Microsoft.AspNetCore.Mvc;
 
 using VatsimLibrary.VatsimDb;
 
@@ -23,8 +25,18 @@ namespace VATSIMData.WebApp
             //bring in the vatsim library for the db context
             services.AddDbContext<VatsimLibrary.VatsimDb.VatsimDbContext>();
 
-            //if we want to use MVC, we simply add in controllers
-            services.AddControllers();
+            //if we want to use MVC, we simply add in controllers 
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            
+            //enable Razor Pages support
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            //other optimizations
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                //session ids must be stored in client-side cookies
+                options.Cookie.IsEssential = true;
+            });
 
             // JSON serializer config
             services.Configure<JsonOptions>(opts => {
@@ -44,6 +56,7 @@ namespace VATSIMData.WebApp
             }
 
             app.UseStaticFiles();
+            app.UseSession();
             app.UseRouting();
             app.UseMiddleware<TestMiddleware>();
 
@@ -59,6 +72,12 @@ namespace VATSIMData.WebApp
                 // controllers
                 // endpoints.MapWebService();
                 endpoints.MapControllers();
+                // add in default route of home controller
+                //endpoints.MapControllerRoute("Default", "{controller=Home}/{action=Index}/{cid?}/{callsign?}/{timelogon?}");
+                // this is a substitute for the above but doesn't have the additional paths
+                endpoints.MapDefaultControllerRoute();
+                //razor pages support
+                endpoints.MapRazorPages();
             });
 
             // we skip the database seeding as the client program handles that
