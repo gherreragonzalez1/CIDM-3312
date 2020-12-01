@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using VatsimLibrary.VatsimClientV1;
 using VatsimLibrary.VatsimDb;
 
-namespace VATSIMData.WebApp.Pages {
+namespace VATSIMData.WebApp.Pages{
     public class IndexModel : PageModel {
         private VatsimDbContext db;
 

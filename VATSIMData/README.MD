@@ -139,28 +139,24 @@ For Flights, I have created the following endpoints:
 
 ## Chapter 18
 
-In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here. 
+In chapter 18, freeman sets up a shell project for the third part of the book.  We'll appropriate most of it here.
 
-Steps on how to create and run the webapp project:
+Things that Freeman does:
 
-1. At the top of *VATSIMData* make sure we've created a globaljson file `dotnet new globaljson --sdk-version 3.1.403`
-2. Make a new directory called webapp and run this inside of it: `dotnet new web --no-https --framework netcoreapp3.1`
+1. At the top of *VATSIMData* make sure we've created a globaljson file
+2. make a new directory called webapp and run this inside of it: `dotnet new web --no-https --framework netcoreapp3.1`
 3. Create models (we already have the **data** project, so we're good here)
-4. Add library reference (run this inside the VATSIMData/webapp folder)
-    1. `dotnet add reference ../library/library.csproj`
-5. Add webapp project to solution file (run this inside the VATSIMData folder)
-    1. `dotnet sln add ./webapp/webapp.csproj`
-5. Add the following packages to the webapp folder (run this inside the VATSIMData/webapp folder)
+4. The packages he adds will be a little different in our case:
     1. `dotnet add package Microsoft.EntityFrameworkCore.Design --version 3.1.10`
-    2. `dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 3.1.10`
+    2. `dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 3.1.10` <-- not the same as the book
     3. `dotnet tool uninstall --global dotnet-ef` <-- gets rid of existing version
-    4. `dotnet tool install --global dotnet-ef --version 3.1.10` <-- current version (NOT .NET 5)
-6. Freeman uses **LibMab** to install front-end dependencies (run this inside the VATSIMData/webapp folder)
-    1. `dotnet tool uninstall --global Microsoft.Web.LibraryManager.Cli` <-- gets rid of the old version
+    4. `dotnet tool install --global dotnet-ef --version 3.1.10` <-- current version that is NOT .NET 5
+5. Freeman uses **LibMan** to install front-end dependencies
+    1. `dotnet tool uninstall --global Microsoft.Web.LibraryManager.Cli` <-- Get rid of old version
     2. `dotnet tool install --global Microsoft.Web.LibraryManager.Cli --version 2.1.113`
-    3. Install Twitter bootstrap:
+    3. install twitter bootstrap: 
         1. `libman init -p cdnjs`
-        2. `libman install twitter-bootstrap@4.5.3 -d wwwroot/lib/twitter-bootstrap`
+        1. `libman install twitter-bootstrap@4.5.3 -d wwwroot/lib/twitter-bootstrap`
 
 We also create the `TestMiddleware.cs` class that he creates but instead wire that up to the library.
 
@@ -189,3 +185,34 @@ Across chapters 18-23, Freeman covers these topics, each of which is at the "cor
 ### Simplicity of Razor Pages
 
 First, Freeman tells us how to add Razor Pages support to the App.
+
+Along with his code, this also requires that we add this package: `dotnet add package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation --version 3.1.10`
+
+## How to Run the Final Project Code:
+
+All you need is the VATSIMData project.
+
+1. with your terminal in the root `VATSIMData` folder:
+    * `dotnet restore`
+    * `dotnet build`
+2. **UPDATE 11/29/2020!!!** (these instructions are no longer necessary if you have downloaded the code after 11/29/2020). Go into the `client` application folder and run it at least once with this command: `dotnet run 6` (this is the number of minutes to run)
+    * WHY? Because I've implemented a [BackgroundWorker](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-5.0&tabs=visual-studio) to do this whenver the web server is running.
+3. **UPDATE 11/29/2020!!!** (you can now just do this step) Go into the `webapp` folder and run it with: `dotnet run`
+4. **WITH THE SERVER RUNNING** Point your browser here: `http://localhost:5000/pilots/search`
+    * Try sorting the columns
+    * Go to the details page for any given pilot record
+
+Still to come from me in the search page:
+
+* filtering
+* pagination
+
+**Sources**:
+
+* [Freeman Chapters 18-23](https://github.com/Apress/pro-asp.net-core-3)
+* [Razor Pages with Entity Framework Core in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/intro?view=aspnetcore-3.1&tabs=visual-studio)
+
+## YOUR FINAL PROJECT TASKS
+
+You can see what I want you to add to the details page by looking at the details page itself.
+

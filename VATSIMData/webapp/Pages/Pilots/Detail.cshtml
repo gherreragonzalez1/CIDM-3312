@@ -23,9 +23,12 @@
             <li>
                 @Model.Pilot.Callsign
             </li>
+            <li>
+                @Model.Pilot.TimeLogon
+            </li>
         </ul>
-        <h2 class="text-danger">TODO: PUT A TABLE HERE SHOWING ALL POSITIONS FOR THIS PILOT</h2>
-        <h2 class="text-danger">TODO: PUT ANOTHER TABLE HERE SHOWING:</h2>
+        <h2 class="text-danger">TODO: PUT A TABLE HERE SHOWING ALL POSITIONS FOR THIS PILOT FOR <strong>THIS SELECTED FLIGHT</strong></h2>
+        <h2 class="text-danger">TODO: PUT ANOTHER TABLE HERE SHOWING THE FOLLOWING FOR <strong>THIS SELECTED FLIGHT:</h2>
         <ul>
             <li>
                 Fastest speed for this pilot
@@ -39,9 +42,6 @@
             <li>
                 Farthest the pilot has traveled South (90 N is the least amount of south and 90 S is most amount of south)
             </li>
-            <li>
-                Airport most visited (can be from departures or arrivals)
-            </li>
         </ul>
         <p><strong>HINT:</strong> You've done MOST of these queries in previous assignment</p>
         <p>
@@ -54,7 +54,10 @@
 </html>
 
 @* I have revealed the Server JS code so that you can download and run the project code.
+
 Notes on how to use the endpoints are in the README for the CIDM3372/Project folder in the repo: https://github.com/ahuimanu/CIDM3372/tree/master/Project
+
+
 For the sunrise/sunset endpoint, try different lat/lon combos
 For the addsmetar, here is a list of ICAO codes for airports around the world: https://www.airport-data.com/world-airports/icao-code/A.html
 I will next reveal most of the client-side JS code and make it clear what you are expected to fill in.

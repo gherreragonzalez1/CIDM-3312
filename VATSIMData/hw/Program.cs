@@ -10,7 +10,7 @@ namespace hw
         static void Main(string[] args)
         {
 
-            Console.WriteLine($"{VatsimDbHepler.DATA_DIR}");
+            Console.WriteLine($"{VatsimDbHelper.DATA_DIR}");
 
             using(var db = new VatsimDbContext())
             {
@@ -35,7 +35,8 @@ namespace hw
                 // {
                 //     Console.WriteLine($"{flight.Key} - {flight.Count()}");
                 // }
-
+                
+                Console.WriteLine();
                 // QUERY 1 STARTS HERE
                 Console.WriteLine("Query 1: Which pilot has been logged on the longest?");
                 var lstPilots = db.Pilots.ToList();
@@ -52,6 +53,7 @@ namespace hw
                    // Get DateDiff from Now
                    DateTime dtNow = DateTime.Now;
                    item.DateDiff = (dtNow - item.dtTimeLogon).TotalMinutes;
+                   Console.WriteLine($"{item.dtTimeLogon}");
                 }
                 double pilotDiff = lstPilots.Max(x => x.DateDiff);
                 var pilot = lstPilots.Where(x=>x.DateDiff == pilotDiff).FirstOrDefault();
@@ -75,6 +77,7 @@ namespace hw
                    DateTime dtNow = DateTime.Now;
                    item.DateDiff = (dtNow - item.dtTimeLogon).TotalMinutes;
                 }
+
                 double controllerDiff = lstControllers.Max(x => x.DateDiff);
                 var controller = lstControllers.Where(x=>x.DateDiff == controllerDiff).FirstOrDefault();
                 Console.WriteLine($"{controller.Realname}, who has been logged on for {controllerDiff:0.00} minutes.");
