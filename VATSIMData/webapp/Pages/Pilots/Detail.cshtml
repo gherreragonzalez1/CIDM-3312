@@ -3,6 +3,13 @@
 @{ 
     Layout = null;
     /* Borrowing from this: https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/sort-filter-page?view=aspnetcore-3.1 */
+    var _positions = Model.Position.Where(x => x.Callsign == (@Model.Pilot.Callsign) && x.TimeLogon == (@Model.Pilot.TimeLogon)).ToList();
+    var _flights = Model.Flight.Where(x => x.Callsign == (@Model.Pilot.Callsign) && x.TimeLogon == (@Model.Pilot.TimeLogon)).ToList();
+
+    var _fastest = _positions.OrderByDescending(x => int.Parse(x.Groundspeed)).Select(x => x.Groundspeed).FirstOrDefault();
+    var _highest = _positions.OrderByDescending(x => int.Parse(x.Altitude)).Select(x => x.Altitude).FirstOrDefault();
+    var _east = _positions.Where(x => double.Parse(x.Longitude) <= 180).OrderByDescending(x => double.Parse(x.Longitude)).Select(x => x.Longitude).FirstOrDefault();
+    var _south = _positions.Where(x => double.Parse(x.Latitude) >= -90).OrderBy(x => double.Parse(x.Latitude)).Select(x => x.Latitude).FirstOrDefault();
 }
 
 <!DOCTYPE html>
@@ -13,21 +20,105 @@
 <body>
     <div class="container">
         <h1>Pilot Details</h1>
-        <ul>
-            <li>
+        <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Cid
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Callsign
+                </th>
+                <th>
+                    TimeLogon
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <td>
                 @Model.Pilot.Cid
-            </li>            
-            <li>
+            </td>            
+            <td>
                 @Model.Pilot.Realname
-            </li>
-            <li>
+            </td>
+            <td>
                 @Model.Pilot.Callsign
-            </li>
-            <li>
+            </td>
+            <td>
                 @Model.Pilot.TimeLogon
-            </li>
-        </ul>
-        <h2 class="text-danger">TODO: PUT A TABLE HERE SHOWING ALL POSITIONS FOR THIS PILOT FOR <strong>THIS SELECTED FLIGHT</strong></h2>
+            </td>
+        </tbody>
+        </table>
+        <h2 class="text-danger">TODO: PUT A TABLE HERE SHOWING ALL POSITIONS FOR THIS PILOT FOR <strong>THIS SELECTED FLIGHT:</strong></h2>
+        <table class="table table-sm table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Callsign
+                    </th>
+                    <th>
+                        TimeStamp
+                    </th>
+                    <th>
+                        Latitude
+                    </th>
+                    <th>
+                        Longitude
+                    </th>
+                    <th>
+                        Server
+                    </th>
+                    <th>
+                        Altitude
+                    </th>
+                    <th>
+                        Groundspeed
+                    </th>
+                    <th>
+                        Transponder
+                    </th>
+                    <th>
+                        Heading
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var position in _positions) {
+                    <tr>
+                        <td>
+                            @position.Callsign
+                        </td>
+                        <td>
+                            @position.TimeStamp
+                        </td>
+                        <td>
+                            @position.Latitude
+                        </td>
+                        <td>
+                            @position.Longitude
+                        </td>
+                        <td>
+                            @position.Server
+                        </td>
+                        <td>
+                            @position.Altitude
+                        </td>
+                        <td>
+                            @position.Groundspeed
+                        </td>
+                        <td>
+                            @position.Transponder
+                        </td>
+                        <td>
+                            @position.Heading
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
         <h2 class="text-danger">TODO: PUT ANOTHER TABLE HERE SHOWING THE FOLLOWING FOR <strong>THIS SELECTED FLIGHT:</h2>
         <ul>
             <li>
@@ -44,6 +135,40 @@
             </li>
         </ul>
         <p><strong>HINT:</strong> You've done MOST of these queries in previous assignment</p>
+        <table class ="table table-sm table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Fastest speed
+                    </th>
+                    <th>
+                        Highest altitude
+                    </th>
+                    <th>
+                        Farthest <i>"@Model.Pilot.Realname"</i> traveled East
+                    </th>
+                    <th>
+                        Farthest <i>"@Model.Pilot.Realname"</i> traveled South
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @_fastest
+                    </td>
+                    <td>
+                        @_highest
+                    </td>
+                    <td>
+                        @_east
+                    </td>
+                    <td>
+                        @_south
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <p>
             <a asp-page="/Pilots/Search">
                 Back to Pilot Search

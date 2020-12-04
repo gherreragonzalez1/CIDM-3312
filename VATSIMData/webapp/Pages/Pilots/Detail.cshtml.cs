@@ -12,6 +12,11 @@ namespace VATSIMData.WebApp.Pages {
         private VatsimDbContext db;
 
         public VatsimClientPilotV1 Pilot { get; set; }
+
+        public IEnumerable<VatsimClientPilotSnapshotV1> Position { get; set; }
+
+        public IEnumerable<VatsimClientPlannedFlightV1> Flight { get; set; }
+
         public PilotDetailModel(VatsimDbContext db) {
             this.db = db;
         }
@@ -20,7 +25,11 @@ namespace VATSIMData.WebApp.Pages {
             Pilot = await db.Pilots.FindAsync(cid, callsign, timelogon);
             if(Pilot == null) {
                 return RedirectToPage("NotFound");
-            }            
+            }
+
+            Position = db.Positions.ToList();
+            Flight = db.Flights.ToList();
+
             return Page();
         }
     }
