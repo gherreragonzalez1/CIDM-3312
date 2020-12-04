@@ -69,7 +69,7 @@ namespace VATSIMData.WebApp
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("Go to http://localhost:5000/pilots/search");
                 });
 
                 // since we won't be making endpoints manually, we'll add in 

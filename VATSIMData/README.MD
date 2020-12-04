@@ -192,13 +192,15 @@ Along with his code, this also requires that we add this package: `dotnet add pa
 
 All you need is the VATSIMData project.
 
-1. with your terminal in the root `VATSIMData` folder:
+1. With your terminal in the root `VATSIMData` folder:
     * `dotnet restore`
     * `dotnet build`
-2. **UPDATE 11/29/2020!!!** (these instructions are no longer necessary if you have downloaded the code after 11/29/2020). Go into the `client` application folder and run it at least once with this command: `dotnet run 6` (this is the number of minutes to run)
+2. Also at the terminal, change directory into `VATSIMData/library/VatsimDb` re-run the migrations: `dotnet ef database update --project ../../webapp/webapp.csproj`
+3. Inside the `library` directory, run `dotnet ef database update --startup-project ../client/client.csproj`
+4. **UPDATE 11/29/2020!!!** (these instructions are no longer necessary if you have downloaded the code after 11/29/2020). Go into the `client` application folder and run it at least once with this command: `dotnet run 6` (this is the number of minutes to run)
     * WHY? Because I've implemented a [BackgroundWorker](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-5.0&tabs=visual-studio) to do this whenver the web server is running.
-3. **UPDATE 11/29/2020!!!** (you can now just do this step) Go into the `webapp` folder and run it with: `dotnet run`
-4. **WITH THE SERVER RUNNING** Point your browser here: `http://localhost:5000/pilots/search`
+5. **UPDATE 11/29/2020!!!** (you can now just do this step) Go into the `webapp` folder and run it with: `dotnet run`
+6. **WITH THE SERVER RUNNING** Point your browser here: `http://localhost:5000/pilots/search`
     * Try sorting the columns
     * Go to the details page for any given pilot record
 
