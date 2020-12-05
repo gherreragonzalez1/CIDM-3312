@@ -24,7 +24,7 @@ HTTP endpoints are provided to provide text output for various queries.  A precu
 
 # How to Run the Program
 
-**Note: These instructions are for the VATSIMData without the background harvester worker**
+**Note: These instructions are for the "VATSIMData (No Harvester Worker)" project without the background harvester worker. For updated instructions go to "How to Run the Final Project Code" section.**
 1. You always want to run the `client` app a few times to get some data into the database or update the database.
     1. If this is your first time running the application, you must first run `dotnet ef database update` from within the `library` project
     2. Because the client program and library are separated, you must specify a startup project within the `library` project: `dotnet ef database update --startup-project ../client/client.csproj`
@@ -50,7 +50,7 @@ In general, the concepts of [Entity Framework as an Object/Relational Mapper](ht
 
 These are generalized steps and not the steps required to run my code, those steps are covered below.
 
-## Working with this code.
+## Working with this Code
 
 First, let's discuss some pre-requisites. You need [Git for Windows](https://git-scm.com/download/win) or for [Mac OSX](https://git-scm.com/download/mac).
 
@@ -69,12 +69,12 @@ Or, you can simply download the ZIP as you can see in the picture above.  A thir
 Once you have cloned or downloaded this code, here are the basic steps to make it work:
 
 1. In VS Code, navigate to the place that you've cloned or downloaded the file
-1. Navigate into the `VATSIMData\client` directory and type `dotnet restore`
-1. Navigate into the `VATSIMData\library` direcotyr and type `dotnet restore`
+1. Navigate into the `VATSIMData/client` directory and type `dotnet restore`
+1. Navigate into the `VATSIMData/library` directory and type `dotnet restore`
 1. Ensure that you've installed the dotnet entity framework tooling as mentioned above: `dotnet tool install --global dotnet-ef`
 1. While still in the `library` directory, run `dotnet ef database update --startup-project ../client/client.csproj`
 1. You can then run my project from the client folder: `dotnet run 5`
-1. the extra number in the program is the number of minutes the program should run
+1. The extra number in the program is the number of minutes the program should run
 
 ## What does this do? What is it?
 
@@ -95,7 +95,7 @@ This program downloads that list, parses it, and then creates data objects for t
 
 That's it, I simply organize and collect this information.
 
-# Your Assignment
+# Your Assignment (VATSIMData/hw)
 
 Both in Chapter 17 of Freeman's book and also in my own code, I demonstrate the use of Entity Framework for working with databases in ASP.NET Core.
 
@@ -124,7 +124,7 @@ Don't forget my hint above that you can use the [DB Browser for SQLite](https://
 
 I will follow this up with an orientation video soon, but I wanted to get you started.  The dropbox for this will be in Blackboard.
 
-# Using ASP.NET Core Platform Features to Work with this data
+# Using ASP.NET Core Platform Features to Work with this Data
 
 Part II of Freeman's book discusses some of the basic mechanics of how an HTTP Request and Response work within ASP.NET.
 
@@ -133,10 +133,10 @@ I have created Request/Response Endpoints similar to chapters 12-14.
 For Flights, I have created the following endpoints:
 
 * `/flights/type/{type}` - where `{type}` is a placeholder/segment for an aircraft type code (common: A320, B738, B77L, A319, B737)
-* `/flights/departure/{departure}` - where `{depature}` is a placeholder/segment for an the departure airprt (common: EDDF, EGGL, KATL, KLAX, RJAA)
+* `/flights/departure/{departure}` - where `{departure}` is a placeholder/segment for an the departure airprt (common: EDDF, EGGL, KATL, KLAX, RJAA)
 * `/flights/destination/{destination}` - where `{destination}` is a placeholder/segment for an the destination airprt (common: EDDF, EGGL, KATL, KLAX, RJAA)
 
-# Using ASP.NET MVC/RazorPages to Work with this data
+# Using ASP.NET MVC/RazorPages to Work with this Data
 
 ## Chapter 18
 
@@ -189,7 +189,7 @@ First, Freeman tells us how to add Razor Pages support to the App.
 
 Along with his code, this also requires that we add this package: `dotnet add package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation --version 3.1.10`
 
-## How to Run the Final Project Code:
+## How to Run the Final Project Code
 
 All you need is the VATSIMData project.
 
