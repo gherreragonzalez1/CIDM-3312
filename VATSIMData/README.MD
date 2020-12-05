@@ -8,7 +8,7 @@ We'll also develop some comfort with pushing our code to Github for [source code
 
 ## Library
 
-The lirbary reads from a text file on the Internet/WWW every two minutes and writes data to the database.  We can then query the database to answer a few basic questions.  We also collect [METAR](https://en.wikipedia.org/wiki/METAR) and Vatsim User (Pilots and Controllers) information.
+The library reads from a text file on the Internet/WWW every two minutes and writes data to the database.  We can then query the database to answer a few basic questions.  We also collect [METAR](https://en.wikipedia.org/wiki/METAR) and Vatsim User (Pilots and Controllers) information.
 
 ## Client
 
