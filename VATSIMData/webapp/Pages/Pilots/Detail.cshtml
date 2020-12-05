@@ -3,13 +3,23 @@
 @{ 
     Layout = null;
     /* Borrowing from this: https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/sort-filter-page?view=aspnetcore-3.1 */
-    var _positions = Model.Position.Where(x => x.Callsign == (@Model.Pilot.Callsign) && x.TimeLogon == (@Model.Pilot.TimeLogon)).ToList();
-    var _flights = Model.Flight.Where(x => x.Callsign == (@Model.Pilot.Callsign) && x.TimeLogon == (@Model.Pilot.TimeLogon)).ToList();
+
+    // Another way of doing the LINQ queries using **Razor Code Blocks** as seen on Freeman's Book, Chapter 21.
+    @* 
+    var _positions = Model.Positions.Where(x => x.Callsign == (@Model.Pilot.Callsign) && x.TimeLogon == (@Model.Pilot.TimeLogon)).ToList();
+    var _flights = Model.Flights.Where(x => x.Callsign == (@Model.Pilot.Callsign) && x.TimeLogon == (@Model.Pilot.TimeLogon)).ToList();
 
     var _fastest = _positions.OrderByDescending(x => int.Parse(x.Groundspeed)).Select(x => x.Groundspeed).FirstOrDefault();
     var _highest = _positions.OrderByDescending(x => int.Parse(x.Altitude)).Select(x => x.Altitude).FirstOrDefault();
-    var _east = _positions.Where(x => double.Parse(x.Longitude) <= 180).OrderByDescending(x => double.Parse(x.Longitude)).Select(x => x.Longitude).FirstOrDefault();
-    var _south = _positions.Where(x => double.Parse(x.Latitude) >= -90).OrderBy(x => double.Parse(x.Latitude)).Select(x => x.Latitude).FirstOrDefault();
+    var _easternmost = _positions.Where(x => double.Parse(x.Longitude) <= 180).OrderByDescending(x => double.Parse(x.Longitude)).Select(x => x.Longitude).FirstOrDefault();
+    var _southernmost = _positions.Where(x => double.Parse(x.Latitude) >= -90).OrderBy(x => double.Parse(x.Latitude)).Select(x => x.Latitude).FirstOrDefault();
+    var _airports = (from departures in _flights
+                group departures by departures.PlannedDepairport into p
+                select new {
+                    Airport = p.Key,
+                    Departures = p.Count()
+                }).OrderByDescending(x => x.Departures).FirstOrDefault();
+    *@
 }
 
 <!DOCTYPE html>
@@ -86,7 +96,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var position in _positions) {
+                @foreach(var position in @Model.Positions) {
                     <tr>
                         <td>
                             @position.Callsign
@@ -155,16 +165,20 @@
             <tbody>
                 <tr>
                     <td>
-                        @_fastest
+                        @Model.Fastest
                     </td>
                     <td>
-                        @_highest
+                        @Model.Highest
                     </td>
                     <td>
-                        @_east
+                        @foreach(var east in @Model.Easternmost) {
+                        @east
+                        }
                     </td>
                     <td>
-                        @_south
+                        @foreach(var south in @Model.Southernmost) {
+                        @south
+                        }
                     </td>
                 </tr>
             </tbody>

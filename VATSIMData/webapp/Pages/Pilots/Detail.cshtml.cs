@@ -13,9 +13,17 @@ namespace VATSIMData.WebApp.Pages {
 
         public VatsimClientPilotV1 Pilot { get; set; }
 
-        public IEnumerable<VatsimClientPilotSnapshotV1> Position { get; set; }
+        public IEnumerable<VatsimClientPilotSnapshotV1> Positions { get; set; }
 
-        public IEnumerable<VatsimClientPlannedFlightV1> Flight { get; set; }
+        public IEnumerable<VatsimClientPlannedFlightV1> Flights { get; set; }
+
+        public string Fastest { get; set; }
+
+        public string Highest { get; set; }
+
+        public List<string> Easternmost { get; set; }
+
+        public List<string> Southernmost { get; set; }
 
         public PilotDetailModel(VatsimDbContext db) {
             this.db = db;
@@ -27,8 +35,24 @@ namespace VATSIMData.WebApp.Pages {
                 return RedirectToPage("NotFound");
             }
 
-            Position = db.Positions.ToList();
-            Flight = db.Flights.ToList();
+            // ***FIRST TABLE***
+            // Calling the Positions table, where the Positions Callsign matches the Pilot Callsign
+            // and the Positions TimeLogon matches the Pilot TimeLogon
+            Positions = await db.Positions.Where(x => x.Callsign == (Pilot.Callsign) && x.TimeLogon == (Pilot.TimeLogon)).ToListAsync();
+            // Calling the Flights table, used for the Airport query that is no longer required
+            Flights = await db.Flights.Where(x => x.Callsign == (Pilot.Callsign) && x.TimeLogon == (Pilot.TimeLogon)).ToListAsync();
+
+            // ***SECOND TABLE***
+            // Fastest groundspeed, Highest altitude, Eaternmost position and Southernmost position
+            Fastest = Positions.OrderByDescending(x => int.Parse(x.Groundspeed)).Select(x => x.Groundspeed).FirstOrDefault();
+            Highest = Positions.OrderByDescending(x => int.Parse(x.Altitude)).Select(x => x.Altitude).FirstOrDefault();
+            Easternmost = Positions.Where(x => double.Parse(x.Longitude) <= 180).OrderByDescending(x => double.Parse(x.Longitude)).Select(x => new List<string> { string.Format($"Lat: {x.Latitude} | Lon: {x.Longitude}") }).FirstOrDefault();
+            Southernmost = Positions.Where(x => double.Parse(x.Latitude) >= -90).OrderBy(x => double.Parse(x.Latitude)).Select(x => new List<string> { string.Format($"Lat: {x.Latitude} | Lon: {x.Longitude}") }).FirstOrDefault();
+
+            // Alternatively, we can do the queries using Razor Code Blocks (Freeman, Ch. 21).
+            // First, we call the tables. Second, we do the queries inside a Razor Code Block in Detail.cshtml
+                // Positions = db.Positions.ToList();
+                // Flights = db.Flights.ToList();
 
             return Page();
         }

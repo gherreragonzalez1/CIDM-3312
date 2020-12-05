@@ -32,6 +32,10 @@ namespace VatsimLibrary.VatsimClientV1
         public string strHeading { get; set; }
         [NotMapped]
         public int PilotCount { get; set; }
+        [NotMapped]
+        public string Lat { get; set; }
+        [NotMapped]
+        public string Lon { get; set; }
 
         public override string ToString()
         {
