@@ -36,10 +36,10 @@ namespace VATSIMData.WebApp.Pages {
             }
 
             // ***FIRST TABLE***
-            //  Calling the Positions table, where the Positions Callsign matches the requested callsign
-            //  and the Positions TimeLogon matches the requested timelogon
+            // Calling the Positions table, where the Positions Callsign matches the requested callsign
+            // and the Positions TimeLogon matches the requested timelogon
             Positions = await db.Positions.Where(x => x.Callsign == (callsign) && x.TimeLogon == (timelogon)).ToListAsync();
-            //  Calling the Flights table, used for the Airport query that is no longer required
+            // Calling the Flights table, used for the Airport query that is no longer required
             Flights = await db.Flights.Where(x => x.Callsign == (callsign) && x.TimeLogon == (timelogon)).ToListAsync();
 
             // ***SECOND TABLE***
