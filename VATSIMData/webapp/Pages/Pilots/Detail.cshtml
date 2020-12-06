@@ -1,7 +1,7 @@
 @page
 @model PilotDetailModel
 @{ 
-    Layout = null;
+    ViewBag.Title = $"{Model.Pilot.Realname} Info";
     /* Borrowing from this: https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/sort-filter-page?view=aspnetcore-3.1 */
 
     // Another way of doing the LINQ queries using **Razor Code Blocks** as seen on Freeman's Book, Chapter 21.
@@ -22,15 +22,9 @@
     *@
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <div class="container">
-        <h1>Pilot Details</h1>
-        <table class="table table-sm table-striped table-bordered">
+<div class="container">
+    <h1>Pilot Details</h1>
+    <table class="table table-sm table-striped table-bordered">
         <thead>
             <tr>
                 <th>
@@ -61,133 +55,131 @@
                 @Model.Pilot.TimeLogon
             </td>
         </tbody>
-        </table>
-        <h2 class="text-danger">TODO: PUT A TABLE HERE SHOWING ALL POSITIONS FOR THIS PILOT FOR <strong>THIS SELECTED FLIGHT:</strong></h2>
-        <table class="table table-sm table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        Callsign
-                    </th>
-                    <th>
-                        TimeStamp
-                    </th>
-                    <th>
-                        Latitude
-                    </th>
-                    <th>
-                        Longitude
-                    </th>
-                    <th>
-                        Server
-                    </th>
-                    <th>
-                        Altitude
-                    </th>
-                    <th>
-                        Groundspeed
-                    </th>
-                    <th>
-                        Transponder
-                    </th>
-                    <th>
-                        Heading
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var position in @Model.Positions) {
-                    <tr>
-                        <td>
-                            @position.Callsign
-                        </td>
-                        <td>
-                            @position.TimeStamp
-                        </td>
-                        <td>
-                            @position.Latitude
-                        </td>
-                        <td>
-                            @position.Longitude
-                        </td>
-                        <td>
-                            @position.Server
-                        </td>
-                        <td>
-                            @position.Altitude
-                        </td>
-                        <td>
-                            @position.Groundspeed
-                        </td>
-                        <td>
-                            @position.Transponder
-                        </td>
-                        <td>
-                            @position.Heading
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <h2 class="text-danger">TODO: PUT ANOTHER TABLE HERE SHOWING THE FOLLOWING FOR <strong>THIS SELECTED FLIGHT:</strong></h2>
-        <ul>
-            <li>
-                Fastest speed for this pilot
-            </li>
-            <li>
-                Highest altitude for this pilot
-            </li>
-            <li>
-                Farthest the pilot has traveled East (not to exceed 180 degrees E)
-            </li>
-            <li>
-                Farthest the pilot has traveled South (90 N is the least amount of south and 90 S is most amount of south)
-            </li>
-        </ul>
-        <p><strong>HINT:</strong> You've done MOST of these queries in previous assignment</p>
-        <table class ="table table-sm table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        Fastest speed
-                    </th>
-                    <th>
-                        Highest altitude
-                    </th>
-                    <th>
-                        Farthest <i>"@Model.Pilot.Realname"</i> traveled East
-                    </th>
-                    <th>
-                        Farthest <i>"@Model.Pilot.Realname"</i> traveled South
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+    </table>
+    <h2 class="text-danger">TODO: PUT A TABLE HERE SHOWING ALL POSITIONS FOR THIS PILOT FOR <strong>THIS SELECTED FLIGHT</strong></h2>
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Callsign
+                </th>
+                <th>
+                    TimeStamp
+                </th>
+                <th>
+                    Latitude
+                </th>
+                <th>
+                    Longitude
+                </th>
+                <th>
+                    Server
+                </th>
+                <th>
+                    Altitude
+                </th>
+                <th>
+                    Groundspeed
+                </th>
+                <th>
+                    Transponder
+                </th>
+                <th>
+                    Heading
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var position in @Model.Positions) {
                 <tr>
                     <td>
-                        @Model.Fastest
+                        @position.Callsign
                     </td>
                     <td>
-                        @Model.Highest
+                        @position.TimeStamp
                     </td>
                     <td>
-                        @foreach(var east in @Model.Easternmost) {
-                            @east
-                        }
+                        @position.Latitude
                     </td>
                     <td>
-                        @foreach(var south in @Model.Southernmost) {
-                            @south
-                        }
+                        @position.Longitude
+                    </td>
+                    <td>
+                        @position.Server
+                    </td>
+                    <td>
+                        @position.Altitude
+                    </td>
+                    <td>
+                        @position.Groundspeed
+                    </td>
+                    <td>
+                        @position.Transponder
+                    </td>
+                    <td>
+                        @position.Heading
                     </td>
                 </tr>
-            </tbody>
-        </table>
-        <p>
-            <a asp-page="/Pilots/Search">
-                Back to Pilot Search
-            </a>
-        </p>
-    </div>
-</body>
-</html>
+            }
+        </tbody>
+    </table>
+    <h2 class="text-danger">TODO: PUT ANOTHER TABLE HERE SHOWING THE FOLLOWING FOR <strong>THIS SELECTED FLIGHT:</h2>
+    <ul>
+        <li>
+            Fastest speed for this pilot
+        </li>
+        <li>
+            Highest altitude for this pilot
+        </li>
+        <li>
+            Farthest the pilot has traveled East (not to exceed 180 degrees E)
+        </li>
+        <li>
+            Farthest the pilot has traveled South (90 N is the least amount of south and 90 S is most amount of south)
+        </li>
+    </ul>
+    <p><strong>HINT:</strong> You've done MOST of these queries in previous assignment</p>
+    <table class ="table table-sm table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Fastest speed
+                </th>
+                <th>
+                    Highest altitude
+                </th>
+                <th>
+                    Farthest <i>"@Model.Pilot.Realname"</i> traveled East
+                </th>
+                <th>
+                    Farthest <i>"@Model.Pilot.Realname"</i> traveled South
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.Fastest
+                </td>
+                <td>
+                    @Model.Highest
+                </td>
+                <td>
+                    @foreach(var east in @Model.Easternmost) {
+                        @east
+                    }
+                </td>
+                <td>
+                    @foreach(var south in @Model.Southernmost) {
+                        @south
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        <a asp-page="/Pilots/Search">
+            Back to Pilot Search
+        </a>
+    </p>
+</div>
