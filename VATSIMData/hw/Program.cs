@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 using VatsimLibrary.VatsimDb;
 
@@ -177,17 +178,30 @@ namespace hw
                 Console.WriteLine();
 
                 // QUERY 10 STARTS HERE
-                Console.WriteLine("Query 10: Which pilot has the longest remarks section of their flight?");                
-                var query10 = db.Flights
-                                .OrderByDescending(p => p.PlannedRemarks.Length)
-                                .Select(p => new { p.Realname, p.PlannedRemarks.Length }).FirstOrDefault();
-                Console.WriteLine($"{query10.Realname}, who has {query10.Length} characters in their remarks section.");
+                // Console.WriteLine("Query 10: Which pilot has the longest remarks section of their flight?");                
+                // var query10 = db.Flights
+                //                 .OrderByDescending(p => p.PlannedRemarks.Length)
+                //                 .Select(p => new { p.Realname, p.PlannedRemarks.Length }).FirstOrDefault();
+                // Console.WriteLine($"{query10.Realname}, who has {query10.Length} characters in their remarks section.");
+
+                QueryTen(db);
+
+                // FindPilot(db, "1031301", "NFC20", "20201203043809");
             }            
         }
 
-        public static void FindPilot(VatsimDbContext db, string cid, string callsign, string logontime)
+        public static void QueryTen(VatsimDbContext db) {
+            Console.WriteLine("Query 10: Which pilot has the longest remarks section of their flight?");
+            var query10 = db.Flights
+                            .OrderByDescending(p => p.PlannedRemarks.Length)
+                            .Select(p => new { p.Realname, p.PlannedRemarks.Length })
+                            .FirstOrDefault();
+            Console.WriteLine($"{query10.Realname}, who has {query10.Length} characters in their remarks section.");
+        }
+
+        public static void FindPilot(VatsimDbContext db, string cid, string callsign, string timelogon)
         {
-            var _pilot = db.Pilots.Find(cid, callsign, logontime);
+            var _pilot = db.Pilots.Find(cid, callsign, timelogon);
             if(_pilot != null){
                 Console.WriteLine($"Pilot found: {_pilot.Realname}");
             } else {
