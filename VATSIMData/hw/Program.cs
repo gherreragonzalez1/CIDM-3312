@@ -87,7 +87,7 @@ namespace hw
                    _controller.DateDiff = (dtNow - dtTimeLogon).TotalMinutes;
                 }
 
-                double controllerMaxDiff = lstControllers.Max(x => x.DateDiff);
+                var controllerMaxDiff = lstControllers.Max(x => x.DateDiff);
                 var loggedController = lstControllers.Where(x=>x.DateDiff == controllerMaxDiff).FirstOrDefault();
                 Console.WriteLine($"{loggedController.Realname}, who has been logged on for {controllerMaxDiff:0.00} minutes.");
                 Console.WriteLine();
