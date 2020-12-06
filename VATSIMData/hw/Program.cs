@@ -53,7 +53,7 @@ namespace hw
                    string seconds = _pilot.TimeLogon.Substring(12, 2);
                    DateTime dtTimeLogon = DateTime.Parse(year+"-"+month+"-"+day+" " + hours+":"+minutes+":"+seconds);
 
-                   // Get DateDiff from Now
+                   // Get the current time and store it in dtNow
                    DateTime dtNow = DateTime.Now;
 
                    // Extended the EF model inside VatsimClientPilotV1.cs to include double DateDiff
