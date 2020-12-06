@@ -14,9 +14,9 @@ namespace VatsimLibrary.VatsimClientV1
         public string Rating { get; set; }        
         public string Visualrange { get; set; }
 
-        // Extending the Entity Framework Model to include DateDiff inside VatsimClientATCV1   
+        // Extending the Entity Framework Model to include ATCDateDiff inside VatsimClientATCV1   
         [NotMapped]
-        public double DateDiff { get; set; }
+        public double ATCDateDiff { get; set; }
 
         public void Update(VatsimClientATCV1 controller)
         {

@@ -55,12 +55,12 @@ namespace hw
                    // Get the current time and store it in dtNow
                    DateTime dtNow = DateTime.Now;
 
-                   // Extended the EF model inside VatsimClientPilotV1.cs to include double DateDiff
-                   _pilot.DateDiff = (dtNow - dtTimeLogon).TotalMinutes;
+                   // Extended the EF model inside library/VatsimClient/V1/VatsimClientPilotV1.cs to include double PilotDateDiff
+                   _pilot.PilotDateDiff = (dtNow - dtTimeLogon).TotalMinutes;
                 }
 
-                var pilotMaxDiff = lstPilots.Max(x => x.DateDiff);
-                var loggedPilot = lstPilots.Where(x => x.DateDiff == pilotMaxDiff).FirstOrDefault();
+                var pilotMaxDiff = lstPilots.Max(x => x.PilotDateDiff);
+                var loggedPilot = lstPilots.Where(x => x.PilotDateDiff == pilotMaxDiff).FirstOrDefault();
                 Console.WriteLine($"{loggedPilot.Realname}, who has been logged on for {pilotMaxDiff:0.00} minutes.");
                 Console.WriteLine();
 
@@ -82,12 +82,12 @@ namespace hw
                    // Get DateDiff from Now
                    DateTime dtNow = DateTime.Now;
 
-                   // Extended the EF model inside VatsimClientPilotV1.cs to include double DateDiff
-                   _controller.DateDiff = (dtNow - dtTimeLogon).TotalMinutes;
+                   // Extended the EF model inside library/VatsimClient/V1/VatsimClientATCV1.cs to include double ATCDateDiff
+                   _controller.ATCDateDiff = (dtNow - dtTimeLogon).TotalMinutes;
                 }
 
-                var controllerMaxDiff = lstControllers.Max(x => x.DateDiff);
-                var loggedController = lstControllers.Where(x=>x.DateDiff == controllerMaxDiff).FirstOrDefault();
+                var controllerMaxDiff = lstControllers.Max(x => x.ATCDateDiff);
+                var loggedController = lstControllers.Where(x => x.ATCDateDiff == controllerMaxDiff).FirstOrDefault();
                 Console.WriteLine($"{loggedController.Realname}, who has been logged on for {controllerMaxDiff:0.00} minutes.");
                 Console.WriteLine();
 

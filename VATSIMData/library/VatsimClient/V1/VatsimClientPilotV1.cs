@@ -8,9 +8,10 @@ namespace VatsimLibrary.VatsimClientV1
 {
     public class VatsimClientPilotV1 : VatsimClientV1
     {
-        // Extending the Entity Framework Model to include DateDiff inside VatsimClientPilotV1   
+        // Extending the Entity Framework Model to include PilotDateDiff inside VatsimClientPilotV1   
         [NotMapped]
-        public double DateDiff { get; set; }
+        public double PilotDateDiff { get; set; }
+
         public void Update(VatsimClientPilotV1 pilot)
         {
             this.Callsign = pilot.Callsign;
