@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VatsimLibrary.VatsimClientV1
 {
@@ -26,21 +25,6 @@ namespace VatsimLibrary.VatsimClientV1
         public string PlannedRoute { get; set; }
         public string PlannedTascruise { get; set; }
 
-        //Extending Entity Framework Model to include new properties.
-        [NotMapped]
-        public string PilotName { get; set; }
-        [NotMapped]
-        public string AirCType { get; set; }
-        [NotMapped]
-        public int AirCTypeCount { get; set; }
-        [NotMapped]
-        public string AirportName { get; set; }
-        [NotMapped]
-        public int Departures { get; set; }
-        [NotMapped]
-        public int Arrivals { get; set; }
-        [NotMapped]
-        public string PlannedRemarksLength { get; set; }
         public void Update(VatsimClientPlannedFlightV1 flight)
         {
             this.Cid = flight.Cid;

@@ -14,10 +14,7 @@ namespace VatsimLibrary.VatsimClientV1
         public string Rating { get; set; }        
         public string Visualrange { get; set; }
 
-        //Extending Entity Framework Model to include new properties.
-        [NotMapped]
-        public DateTime dtTimeLogon { get; set; }
-        
+        // Extending the Entity Framework Model to include DateDiff inside VatsimClientATCV1   
         [NotMapped]
         public double DateDiff { get; set; }
 
