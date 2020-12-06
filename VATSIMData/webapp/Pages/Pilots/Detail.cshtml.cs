@@ -36,14 +36,14 @@ namespace VATSIMData.WebApp.Pages {
             }
 
             // ***FIRST TABLE***
-            // Calling the Positions table, where the Positions Callsign matches the Pilot Callsign
-            // and the Positions TimeLogon matches the Pilot TimeLogon
+            //  Calling the Positions table, where the Positions Callsign matches the requested callsign
+            //  and the Positions TimeLogon matches the requested timelogon
             Positions = await db.Positions.Where(x => x.Callsign == (callsign) && x.TimeLogon == (timelogon)).ToListAsync();
-            // Calling the Flights table, used for the Airport query that is no longer required
+            //  Calling the Flights table, used for the Airport query that is no longer required
             Flights = await db.Flights.Where(x => x.Callsign == (callsign) && x.TimeLogon == (timelogon)).ToListAsync();
 
             // ***SECOND TABLE***
-            // Fastest groundspeed, Highest altitude, Eaternmost position and Southernmost position
+            // Fastest groundspeed, Highest altitude, Eaternmost position and Southernmost position queries
             Fastest = Positions.OrderByDescending(x => int.Parse(x.Groundspeed)).Select(x => x.Groundspeed).FirstOrDefault();
             Highest = Positions.OrderByDescending(x => int.Parse(x.Altitude)).Select(x => x.Altitude).FirstOrDefault();
             Easternmost = Positions.Where(x => double.Parse(x.Longitude) <= 180).OrderByDescending(x => double.Parse(x.Longitude)).Select(x => new List<string> { string.Format($"({x.Latitude}, {x.Longitude})") }).FirstOrDefault();
